@@ -1,25 +1,28 @@
-CC = g++
-
 CFLAGS = -c
 
-LFLAGS = -o 
+LDFLAGS = 
 
 DEBUG = -g
 
 TARGET = telsql
 
-SQLITECORE_HEADERS = sqlite-core/Headers/dbmanager.h \
+BUILDIR = build
 
-SQLITECORE_SOURCES = main.cpp sqlite-core/Sources/dbmanager.cpp \
+SQLITECORE_HEADERS = sqlite-core/Sources/dbmanager.h \
 
-OBJS = main.o dbmanager.o \
+SQLITECORE_SOURCES = sqlite-core/Sources/dbmanager.cpp \
 
-all: $(OBJS)
-	$(CC) $(DEBUG) $(LFLAGS) $(TARGET) $(OBJS) 
+SOURCES = 	main.cpp \
+			$(SQLITECORE_SOURCES) \
 
-objects: $(SQLITECORE_HEADERS) $(SQLITECORE_SOURCES)
-	$(CC) $(DEBUG) $(CFLAGS) $(SQLITECORE_SOURCES) 
+OBJECTS = 	main.o \
+			dbmanager.o \
 
-clean: 
-	rm -rf $(OBJS) $(TARGET)
+all: $(OBJECTS)
+	$(CXX) $(BUILDIR)/$< -o $(BUILDIR)/$(TARGET)
 
+$(OBJECTS): $(SOURCES)
+	$(CXX) $(DEBUG) $(CFLAGS) $< -o $(BUILDIR)/$@
+
+clean:
+	$(RM) $(BUILDIR)/*
