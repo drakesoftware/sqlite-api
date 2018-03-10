@@ -1,8 +1,10 @@
 #include <iostream>
+#include "dbmanager.h"
+#include "db.h"
 
 
 int main(){
-    int i = 0;
-    i = 5;
+    auto uatDb = DbManager::instance().open("UAT");
+    
     return 0;
 }

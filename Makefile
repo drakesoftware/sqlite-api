@@ -1,4 +1,4 @@
-CFLAGS = -c
+CFLAGS = -c -std=c++11
 
 LDFLAGS = 
 
@@ -8,21 +8,39 @@ TARGET = telsql
 
 BUILDIR = build
 
-SQLITECORE_HEADERS = sqlite-core/Sources/dbmanager.h \
+INCLUDE = -Isqlite-core/Headers
 
-SQLITECORE_SOURCES = sqlite-core/Sources/dbmanager.cpp \
+SQLITECORE_HEADERS = 	sqlite-core/Headers/dbmanager.h \
+						sqlite-core/Headers/db.h \
+						sqlite-core/Headers/table.h \
+
+SQLITECORE_SOURCES = 	sqlite-core/Sources/dbmanager.cpp \
+						sqlite-core/Sources/db.cpp \
+						sqlite-core/Sources/table.cpp \
 
 SOURCES = 	main.cpp \
 			$(SQLITECORE_SOURCES) \
 
-OBJECTS = 	main.o \
+OBJECTS = 	$(addprefix $(BUILDIR)/, \
+			main.o \
 			dbmanager.o \
+			db.o \
+			table.o)
 
 all: $(OBJECTS)
-	$(CXX) $(BUILDIR)/$< -o $(BUILDIR)/$(TARGET)
+	$(CXX) -o $(BUILDIR)/$(TARGET) $(OBJECTS)
 
-$(OBJECTS): $(SOURCES)
-	$(CXX) $(DEBUG) $(CFLAGS) $< -o $(BUILDIR)/$@
+$(BUILDIR)/main.o: main.cpp
+	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) main.cpp -o $@
+
+$(BUILDIR)/dbmanager.o: sqlite-core/Sources/dbmanager.cpp sqlite-core/Headers/dbmanager.h 
+	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) sqlite-core/Sources/dbmanager.cpp -o $@	
+
+$(BUILDIR)/db.o: sqlite-core/Sources/db.cpp sqlite-core/Headers/db.h 
+	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) sqlite-core/Sources/db.cpp -o $@	
+
+$(BUILDIR)/table.o: sqlite-core/Sources/table.cpp sqlite-core/Headers/table.h 
+	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) sqlite-core/Sources/table.cpp -o $@	
 
 clean:
 	$(RM) $(BUILDIR)/*

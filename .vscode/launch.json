@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/telsql",
+            "program": "${workspaceFolder}/build/telsql",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
