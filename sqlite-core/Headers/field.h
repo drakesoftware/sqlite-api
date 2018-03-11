@@ -6,25 +6,41 @@ template<
     class ValueType
 >
 class SqlToCppTypeConversion{
-public:
     const char* Convert(ValueType type){
         return "String";
     };
 };
 
+class IField{
+public:
+    void get(){};
+};
 
 template<
     class ValueType,
     template<class>
     class ValueTypeCoversionPolicy = SqlToCppTypeConversion
 >
-class Field: ValueTypeCoversionPolicy<ValueType>{
+class Field: 
+    public ValueTypeCoversionPolicy<ValueType>,
+    public IField {
 public:
     Field() = default;
-    Field(const char* name, ValueType value){
+    Field(const char* name):
+        m_name{name}{
 
     }
-    
+    Field(const char* name, ValueType value):
+        m_name{name},
+        m_value{value}{
+        
+    }
+    ValueType getValue(){
+        return m_value;
+    }
+private:
+    const char* m_name;
+    ValueType m_value;
 };
 
 

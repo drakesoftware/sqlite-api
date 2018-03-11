@@ -12,7 +12,9 @@ Table DB::getTable(const char* tableName){
         return m_tables[tableName];
     }
     else{
-        m_tables.insert(std::pair<const char*, Table>(tableName, Table(tableName)));
+        Table table(tableName, std::shared_ptr<DB>(this));
+        m_tables.insert(std::pair<const char*, Table>(tableName, table));
+        return table;
     }
 }
 

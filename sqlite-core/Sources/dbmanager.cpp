@@ -10,7 +10,9 @@ DB DbManager::open(const char* dbName){
         return m_dbs[dbName];
     }
     else{
-        m_dbs.insert(std::pair<const char*, DB>(dbName, DB(dbName)));
+        DB db(dbName);
+        m_dbs.insert(std::pair<const char*, DB>(dbName, db));
+        return db;
     }
 }
 
