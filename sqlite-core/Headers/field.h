@@ -5,7 +5,7 @@
 template<
     class ValueType
 >
-class SqlToCppTypeConversion{
+class DefaultTypeConversion{
     const char* Convert(ValueType type){
         return "String";
     };
@@ -13,13 +13,18 @@ class SqlToCppTypeConversion{
 
 class IField{
 public:
+    IField() = default;
+    IField(const char* name):
+        m_name{name}{}
     void get(){};
+    const char* m_name;
+protected:
 };
 
 template<
     class ValueType,
     template<class>
-    class ValueTypeCoversionPolicy = SqlToCppTypeConversion
+    class ValueTypeCoversionPolicy = DefaultTypeConversion
 >
 class Field: 
     public ValueTypeCoversionPolicy<ValueType>,
@@ -27,11 +32,11 @@ class Field:
 public:
     Field() = default;
     Field(const char* name):
-        m_name{name}{
+        IField(name){
 
     }
     Field(const char* name, ValueType value):
-        m_name{name},
+        IField(name),
         m_value{value}{
         
     }
@@ -39,7 +44,6 @@ public:
         return m_value;
     }
 private:
-    const char* m_name;
     ValueType m_value;
 };
 

@@ -12,8 +12,8 @@ class UATData: public Entity
     int Longitude;
     bool AirGroundState;
     const char* NIC;
-
-    UATData():
+    UATData() = default;
+    UATData(const char* dbName, const char* tableName):
     Latitude{1},
     Longitude{2},
     AirGroundState{true},
@@ -24,6 +24,7 @@ class UATData: public Entity
         refSet(AirGroundState, firstRow["AirGroundState"]);
         refSet(NIC, firstRow["NIC"]);
     }
+    
 
     void setData() override {
         set("Latitude", Latitude);
@@ -33,11 +34,21 @@ class UATData: public Entity
     }
     
 };
+class UATDataCreationPolicy{
+public:
+    template<class UATDataType>
+    UATDataType Create(const char* dbName, const char* tableName){        
+        return UATDataType(dbName, tableName);
+    }
+};
+
+typedef DbManager<UATDataCreationPolicy> UATDBManager;
+
 int main(){
-    auto uatDb = DB("UAT");
-    auto tab = uatDb.getTable("test");
-    UATData u = tab.Create<UATData>();
-    u.Save();   
-     
+    // UATData u = DbManager<UATData>::instance()
+    //     .Create("UAT", "test");
+    // u.Save();   
+     UATData u = UATDBManager::instance().Create<UATData>("UAT","test");
+     u.Save();
     return 0;
 }
