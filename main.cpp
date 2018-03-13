@@ -5,6 +5,7 @@
 #include "table.h"
 #include "entity.h"
 
+
 class UATData: public Entity
 {
  public:
@@ -19,18 +20,17 @@ class UATData: public Entity
     AirGroundState{true},
     NIC{"The NIC"}{
         auto firstRow = first();
-        refSet(Latitude, firstRow["Latitude"]);
-        refSet(Longitude, firstRow["Longitude"]);
-        refSet(AirGroundState, firstRow["AirGroundState"]);
-        refSet(NIC, firstRow["NIC"]);
-    }
-    
+        this->get("Latitude", Latitude);
+        this->get("Longitude", Longitude);
+        this->get("AirGroundState", AirGroundState);
+        this->get("NIC", NIC);
+    }    
 
     void setData() override {
-        set("Latitude", Latitude);
-        set("Longitude", Longitude);
-        set("AirGroundState", AirGroundState);
-        set("NIC", NIC);        
+        this->set("Latitude", Latitude);
+        this->set("Longitude", Longitude);
+        this->set("AirGroundState", AirGroundState);
+        this->set("NIC", NIC);        
     }
     
 };

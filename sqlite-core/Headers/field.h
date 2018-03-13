@@ -16,8 +16,11 @@ public:
     IField() = default;
     IField(const char* name):
         m_name{name}{}
-    void get(){};
+
+    template<class ConvertToType>
+    ConvertToType get(){};
     const char* m_name;
+    virtual ~IField() = default;
 protected:
 };
 
@@ -40,6 +43,7 @@ public:
         m_value{value}{
         
     }
+
     ValueType getValue(){
         return m_value;
     }
@@ -48,5 +52,12 @@ private:
 };
 
 
-
+class Setter{
+public:
+    template<class ValueType>
+    static void refSet(ValueType& var, IField& ifield){
+        Field<ValueType>& field = (Field<ValueType>&)ifield;
+        var = field.getValue();
+    }
+};
 #endif

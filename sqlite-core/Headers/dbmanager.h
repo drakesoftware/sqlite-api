@@ -1,6 +1,5 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
-#include <db.h>
 #include "entity.h"
 
 
