@@ -18,6 +18,12 @@ public:
         
     }
     
+    void clear(){
+        m_intColumns.clear();
+        m_strColumns.clear();
+        m_boolColumns.clear();
+        m_dblColumns.clear();
+    }
 
     std::map<const char*, int> m_intColumns;
     std::map<const char*, string> m_strColumns;

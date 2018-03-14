@@ -2,15 +2,19 @@
 #define ENTITY_H
 #include "table.h"
 #include "columns.h"
+#include <vector>
 
 
 class Entity: public Columns{
 public:
-    Entity() = default;
+    Entity(const char* dbName, const char* tableName)
+        :m_table(tableName, dbName){}
+
     void Save(){
-        //Clear data here
+        clear();
         setData();
-        //do the db save
+        
+        m_table.save(*this);
     }
     virtual void setData(){};
 protected:
@@ -27,6 +31,7 @@ protected:
         return vec;
     }
 private:
+    Table m_table;
 };
 
 

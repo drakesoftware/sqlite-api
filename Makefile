@@ -1,6 +1,6 @@
 CFLAGS = -c -std=c++11
 
-LDFLAGS = 
+LDFLAGS = -lsqlite3
 
 DEBUG = -g
 
@@ -34,7 +34,7 @@ OBJECTS = 	$(addprefix $(BUILDIR)/, \
 			columns.o)
 
 all: $(OBJECTS)
-	$(CXX) -o $(BUILDIR)/$(TARGET) $(OBJECTS)
+	$(CXX) -o $(BUILDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS)
 
 $(BUILDIR)/dbmanager.o: sqlite-core/Sources/dbmanager.cpp sqlite-core/Headers/dbmanager.h 
 	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/dbmanager.cpp	

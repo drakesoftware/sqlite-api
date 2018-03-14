@@ -1,7 +1,6 @@
 #include <iostream>
 #include "dbmanager.h"
 #include "db.h"
-#include "field.h"
 #include "table.h"
 #include "entity.h"
 
@@ -15,24 +14,24 @@ class UATData: public Entity
     const char* NIC;
     UATData() = default;
     UATData(const char* dbName, const char* tableName):
-    Latitude{1},
-    Longitude{2},
-    AirGroundState{true},
-    NIC{"The NIC"}{
-        auto firstRow = first();
-        this->get("Latitude", Latitude);
-        this->get("Longitude", Longitude);
-        this->get("AirGroundState", AirGroundState);
-        this->get("NIC", NIC);
+        Entity(dbName, tableName),
+        Latitude{1},
+        Longitude{2},
+        AirGroundState{true},
+        NIC{"The NIC"}{
+            auto firstRow = first();
+            get("Latitude", Latitude);
+            get("Longitude", Longitude);
+            get("AirGroundState", AirGroundState);
+            get("NIC", NIC);
     }    
 
     void setData() override {
-        this->set("Latitude", Latitude);
-        this->set("Longitude", Longitude);
-        this->set("AirGroundState", AirGroundState);
-        this->set("NIC", NIC);        
-    }
-    
+        set("Latitude", Latitude);
+        set("Longitude", Longitude);
+        set("AirGroundState", AirGroundState);
+        set("NIC", NIC);        
+    }    
 };
 class UATDataCreationPolicy{
 public:
@@ -45,10 +44,8 @@ public:
 typedef DbManager<UATDataCreationPolicy> UATDBManager;
 
 int main(){
-    // UATData u = DbManager<UATData>::instance()
-    //     .Create("UAT", "test");
-    // u.Save();   
-     UATData u = UATDBManager::instance().Create<UATData>("UAT","test");
+     UATData u = UATDBManager::instance()
+        .Create<UATData>("UAT","test");
      u.Save();
     return 0;
 }
