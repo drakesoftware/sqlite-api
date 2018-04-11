@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Database files
+*.db
+
+# Build folder
+#/build

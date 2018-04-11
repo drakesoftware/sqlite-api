@@ -35,7 +35,7 @@
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
                 "${workspaceRoot}",
-                "${workspaceRoot}/sqlite-core/Headers"
+                "/user/manish/git/sqlite-api/sqlite-core/Headers"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -50,11 +50,15 @@
                     "/usr/include/x86_64-linux-gnu",
                     "/usr/include",
                     "${workspaceRoot}",
-                    "${workspaceRoot}/sqlite-core/Headers"
+                    "${workspaceRoot}/sqlite-core/Headers",
+                    "/user/manish/git/sqlite-api/sqlite-core/Headers"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         },
         {
             "name": "Win32",
