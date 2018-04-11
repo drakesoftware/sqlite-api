@@ -12,7 +12,7 @@
  * This is a class that holds data for one row or one 
  * object at a time. It can hold data for only int, 
  * string, bool, float. But can be easily extended for 
- * maore data types limited only by the ones supported 
+ * more data types limited only by the ones supported 
  * by sqlite3. The specialized templated functions help 
  * seemlessly add values to the internal associative 
  * containers.

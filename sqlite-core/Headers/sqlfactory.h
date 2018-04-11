@@ -104,6 +104,7 @@ private:
         os << "'" << value << "'";
         return os.str();
     }
+
     static std::string fieldSpecs(SqlTypeEnum type, int sz = 0, bool isKey = false, bool notNull = false){
         std::stringstream ss;
         char szSpec[10];
@@ -129,18 +130,6 @@ private:
         return ss.str();
     }
 
-    static std::string ddlCat(std::string built, SqlField sqlField){
-        std::stringstream ss;
-        std::string find = "); ";
-        size_t start = built.find(find);
-        if(start != std::string::npos)
-            built.replace(start, find.length(), ", ");
-
-        ss << built << sqlField.Name << " " << \
-            fieldSpecs(sqlField.Type, sqlField.Sz, sqlField.IsKey, sqlField.NotNull) << "); " << endl;
-        return ss.str();
-    }
-
     template<typename T>
     static std::string ddlCat(std::string built,T last){
         std::stringstream ss;
@@ -149,28 +138,6 @@ private:
         return ss.str();
     }
 
-    template<typename T, typename... TArgs>
-    static std::string ddlCat(std::string built, T first, TArgs... sqlField){
-        std::stringstream ss;
-        ss << built << first.Name << " " << \
-            fieldSpecs(first.Type, first.Sz, first.IsKey, first.NotNull) << ", ";
-        return ddlCat(ss.str(), sqlField...);        
-    }
-    template<typename T>
-    static pair<string, string> dmlCat(pair<string, string> built,T last){
-        ostringstream names, values;
-        names << built.first << last.Name;
-        values << built.second << treatSqlValue(last.Value);
-        return make_pair(names.str(), values.str());
-    }
-
-    template<typename T, typename... TArgs>
-    static pair<string, string> dmlCat(pair<string, string> built, T first, TArgs... sqlField){
-        ostringstream names, values;
-        names << built.first << first.Name << ", ";
-        values << built.second << treatSqlValue(first.Value) << ", ";
-        return dmlCat(make_pair(names.str(), values.str()), sqlField...);        
-    }
 public:
 
     static string TABLE_EXISTS(const char* tablename){
@@ -181,14 +148,6 @@ public:
             << tablename \
             << "'";
         return os.str();
-    }
-
-    template<class T>
-    static pair<string, string> dmlCat(pair<string, string> built, SqlColumn<T> sqlCol){
-        ostringstream names, values;
-        names << built.first << sqlCol.Name << ", ";
-        values << built.second << treatSqlValue(sqlCol.Value) << ", ";
-        return make_pair(names, values);        
     }
 
     static std::string CREATE_TABLE(const char* tableName, vector<SqlField> sqlFields){        
@@ -206,16 +165,7 @@ public:
             << fieldsList;
         return os.str();
     }
-
-    template<typename... TArgs>
-    static std::string CREATE_TABLE(const char* tableName, TArgs... sqlFields){        
-        char buff[255];
-        sprintf(buff, "CREATE TABLE %s(", tableName);
-
-        std::string build = ddlCat(buff, sqlFields...);
-
-        return build;
-    }
+    
     static std::string INSERT_TABLE(const char* tableName, std::string names, std::string values){
             stringstream ss;        
             ss
@@ -237,13 +187,7 @@ public:
         join(values, ',', strValues);
         return INSERT_TABLE(tableName, strNames, strValues);    
     }
-
-    template<typename... TArgs>
-    static std::string INSERT_TABLE(const char* tableName, TArgs... sqlColumns){              
-        stringstream ss;
-        pair<string, string> build = dmlCat(make_pair("",""), sqlColumns...);
-        return INSERT_TABLE(tableName, build.first, build.second);
-    }
+    
     template<class T>
     static SqlField CreateFieldFromValues(const char* fieldName, T value){
         return SqlField(fieldName);
