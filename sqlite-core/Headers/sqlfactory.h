@@ -98,12 +98,10 @@ private:
         }
     }
     
-    template<class T>
-    static std::string treatSqlValue(T value){
-        ostringstream os;
-        os << "'" << value << "'";
-        return os.str();
-    }
+    std::string treatSqlValue(string value);
+    std::string treatSqlValue(int value);
+    std::string treatSqlValue(float value);
+    std::string treatSqlValue(bool value);
 
     static std::string fieldSpecs(SqlTypeEnum type, int sz = 0, bool isKey = false, bool notNull = false){
         std::stringstream ss;
@@ -188,10 +186,11 @@ public:
         return INSERT_TABLE(tableName, strNames, strValues);    
     }
     
-    template<class T>
-    static SqlField CreateFieldFromValues(const char* fieldName, T value){
-        return SqlField(fieldName);
-    }    
+    SqlField CreateFieldFromValues(const char* fieldName, string value);
+    SqlField CreateFieldFromValues(const char* fieldName, int value);
+    SqlField CreateFieldFromValues(const char* fieldName, float value);
+    SqlField CreateFieldFromValues(const char* fieldName, bool value);
+
     static std::string SELECT(const char* tableName, int count){
         ostringstream os;
         std::string limit = "";

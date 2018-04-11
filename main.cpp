@@ -15,7 +15,7 @@ class UATData: public Entity
     int Longitude;
     bool AirGroundState;
     float Sig;
-    const char* NIC;
+    string NIC;
     
     UATData() = default;
     UATData(const char* dbName, const char* tableName):

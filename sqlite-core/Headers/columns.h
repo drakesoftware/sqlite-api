@@ -20,15 +20,15 @@
 using namespace std;
 class Columns{
 public:
-    template<class ValueType>
-    void set(const char* key, const ValueType value){
-
-    }
+    bool get(const char* key, int& refVar);
+    bool get(const char* key, float& refVar);
+    bool get(const char* key, string& refVar);
+    bool get(const char* key, bool& refVar);
     
-    template<class ValueType>
-    bool get(const char* key, ValueType& refVar){
-        
-    }
+    void set(const char* key, const int value);
+    void set(const char* key, const float value);
+    void set(const char* key, const string value);
+    void set(const char* key, const bool value);
     
     /**
      * A helper function to pass data to classes that 

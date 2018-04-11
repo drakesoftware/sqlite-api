@@ -1,6 +1,5 @@
 #include "columns.h"
 
-template<>
 bool Columns::get(const char* key, int& refVar){
     auto find = m_intColumns.find(key);
     if(find == m_intColumns.end()){
@@ -9,7 +8,6 @@ bool Columns::get(const char* key, int& refVar){
     refVar = m_intColumns[key];
     return true;
 }
-template<>
 bool Columns::get(const char* key, float& refVar){
     auto find = m_dblColumns.find(key);
     if(find == m_dblColumns.end()){
@@ -18,7 +16,6 @@ bool Columns::get(const char* key, float& refVar){
     refVar = m_dblColumns[key];
     return true;
 }
-template<>
 bool Columns::get(const char* key, string& refVar){
     auto find = m_strColumns.find(key);
     if(find == m_strColumns.end()){
@@ -27,7 +24,6 @@ bool Columns::get(const char* key, string& refVar){
     refVar = m_strColumns[key];
     return true;
 }
-template<>
 bool Columns::get(const char* key, bool& refVar){
     auto find = m_strColumns.find(key);
     if(find == m_strColumns.end()){
@@ -37,7 +33,6 @@ bool Columns::get(const char* key, bool& refVar){
     return true;
 }
 
-template<>
 void Columns::set(const char* key, const int value){
     auto find = m_intColumns.find(key);
     if(find != m_intColumns.end())
@@ -45,7 +40,6 @@ void Columns::set(const char* key, const int value){
     else
         m_intColumns.insert(std::make_pair(key, value));
 }
-template<>
 void Columns::set(const char* key, const float value){
     auto find = m_dblColumns.find(key);
     if(find != m_dblColumns.end())
@@ -53,15 +47,13 @@ void Columns::set(const char* key, const float value){
     else
         m_dblColumns.insert(std::make_pair(key, value));
 }
-template<>
-void Columns::set(const char* key, const char* value){
+void Columns::set(const char* key, const string value){
     auto find = m_strColumns.find(key);
     if(find != m_strColumns.end())
         m_strColumns[key] = value;
     else
         m_strColumns.insert(std::make_pair(key, value));
 }
-template<>
 void Columns::set(const char* key, const bool value){
     auto find = m_boolColumns.find(key);
     if(find != m_boolColumns.end())
