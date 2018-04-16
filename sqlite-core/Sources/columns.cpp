@@ -25,8 +25,8 @@ bool Columns::get(const char* key, string& refVar){
     return true;
 }
 bool Columns::get(const char* key, bool& refVar){
-    auto find = m_strColumns.find(key);
-    if(find == m_strColumns.end()){
+    auto find = m_boolColumns.find(key);
+    if(find == m_boolColumns.end()){
         return false;
     }
     refVar = m_boolColumns[key];
@@ -62,31 +62,7 @@ void Columns::set(const char* key, const bool value){
         m_boolColumns.insert(std::make_pair(key, value));
 }
 
-tuple<vector<string>, vector<string>, vector<char>> Columns::getNamesAndValues(){
-    vector<string> names;
-    vector<string> values;
-    vector<char> types;
-
-    for(auto pair: m_intColumns){
-        names.push_back(pair.first);
-        values.push_back(to_string(pair.second));
-        types.push_back('I');
-    }
-    for(auto pair: m_strColumns){
-        names.push_back(pair.first);
-        values.push_back("'" + pair.second + "'");
-        types.push_back('S');
-    }
-    for(auto pair: m_boolColumns){
-        names.push_back(pair.first);
-        string val = pair.second? "1": "0";
-        values.push_back(val);
-        types.push_back('I');
-    }
-    for(auto pair: m_dblColumns){
-        names.push_back(pair.first);
-        values.push_back(to_string(pair.second));
-        types.push_back('D');
-    }
-    return make_tuple(names, values, types);
+schema Columns::getschema() const{
+    return {{}};
 }
+

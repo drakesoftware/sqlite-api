@@ -28,7 +28,9 @@
         "functional": "cpp",
         "memory": "cpp",
         "sstream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "cmath": "cpp",
+        "cstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

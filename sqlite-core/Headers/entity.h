@@ -4,31 +4,9 @@
 #include "columns.h"
 #include <vector>
 #include <utility>
+#include "databroker.h"
 
-class ColumnsFromSqlValue{
-public:
-    static Columns create(vector<SqlValue> values){
-        Columns cols;
-        for(size_t i = 0; i < values.size(); i++){
-            const char* name = values[i].Name.data();
-            switch(values[i].Tp){
-                case SqlValueTypeEnum::TXT:
-                    cols.set(name, values[i].TxtVal);
-                    break;
-                case SqlValueTypeEnum::FLT:
-                    cols.set(name, values[i].FltVal);
-                    break;
-                case SqlValueTypeEnum::INT:
-                    cols.set(name, values[i].IntVal);
-                    break;
-                case SqlValueTypeEnum::NUL:
-                default:
-                    break;
-            }
-        }
-        return cols;
-    }
-};
+
 
 /**
  * The bae class for any data type that we want to save 
@@ -44,11 +22,8 @@ public:
     void Save(){
         clear();
         setData();
-        auto namesAndValues = getNamesAndValues();
-        m_table.save(
-            std::get<0>(namesAndValues), 
-            std::get<1>(namesAndValues), 
-            std::get<2>(namesAndValues));
+        
+        m_table.save(SqlValueFromColumn::create(*this));
     }
     virtual void setData(){};
 protected:
@@ -59,7 +34,7 @@ protected:
         sqlResult results;
         int rows = m_table.get(results, 1);
         if(rows > 0)
-            return ColumnsFromSqlValue::create(results[0]);
+            return ColumnsFromSqlValue::create(getschema(), results[0]);
         else
             return Columns();
     }

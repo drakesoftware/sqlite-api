@@ -11,6 +11,8 @@ BUILDIR = build
 INCLUDE = -Isqlite-core/Headers
 
 SQLITECORE_HEADERS = 	sqlite-core/Headers/dbmanager.h \
+						sqlite-core/Headers/datadefinition.h \
+						sqlite-core/Headers/databroker.h \
 						sqlite-core/Headers/db.h \
 						sqlite-core/Headers/table.h \
 						sqlite-core/Headers/entity.h \

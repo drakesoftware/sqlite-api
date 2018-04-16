@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include "datadefinition.h"
 
 using namespace std;
 
@@ -18,31 +19,6 @@ struct sqlite3_stmt_deleter{
     }
 };
 
-enum SqlValueTypeEnum{
-    INT,
-    TXT,
-    FLT,
-    NUL
-};
-/**
- * This stucture holds value of one column coming 
- * from the sqlite3 db. They can be any type. While 
- * initializing the object, it is determined as to 
- * what data type the column is initialized as. 
- * This struct can be improved in many ways. To 
- * begin with, it could be converted into a union.
-*/
-struct SqlValue{
-    SqlValueTypeEnum Tp;
-    int IntVal = 0;
-    const unsigned char* TxtVal = 0;
-    float FltVal = 0;
-    string Name;
-    SqlValue(string name, int intVal):Name(name), IntVal(intVal), Tp(::INT){}
-    SqlValue(string name, const unsigned char* charVal):Name(name), TxtVal(charVal), Tp(::TXT){}
-    SqlValue(string name, float dblVal):Name(name), FltVal(dblVal), Tp(::FLT){}
-    SqlValue(string name):Name(name), Tp(::NUL){}
-};
 using sqldb = std::unique_ptr<sqlite3, sqlite3_deleter>;
 using sqlstmt = std::unique_ptr<sqlite3_stmt, sqlite3_stmt_deleter>;
 using sqlResult = std::vector<std::vector<SqlValue> >;

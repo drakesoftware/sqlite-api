@@ -2,6 +2,7 @@
 #include <sqlite3.h>
 #include <stdio.h>
 #include <memory>
+#include<string.h>
 
 
 DB::DB(const char* name): 
@@ -56,30 +57,36 @@ int DB::selectScalar(const char* sql, SqlValue& sqlValue){
     sqlite3_stmt* stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL );
     sqlstmt up_stmt{stmt};
-    int rows;
+    int rows = 0;
     if(sqlite3_step(up_stmt.get()) == SQLITE_ROW)
     {
         const char* colName = sqlite3_column_name(up_stmt.get(), 0);
         switch(sqlite3_column_type(up_stmt.get(), 0))
             {
-               case SQLITE_INTEGER: 
+               case SQLITE_INTEGER: {
                     sqlValue = SqlValue(colName, sqlite3_column_int(up_stmt.get(), 0));
                     break;
-               case SQLITE_FLOAT:
+               }
+               case SQLITE_FLOAT:{
                     sqlValue = SqlValue(colName, (float)sqlite3_column_double(up_stmt.get(), 0));
                     break;
-               case SQLITE_TEXT:
-                    sqlValue = SqlValue(colName, sqlite3_column_text(up_stmt.get(), 0));
+                }
+               case SQLITE_TEXT:{
+                    const unsigned char* ucharVal = sqlite3_column_text(up_stmt.get(), 0);
+                    string strVal = reinterpret_cast<const char*>(ucharVal);
+                    sqlValue = SqlValue(colName, strVal);
                     break;
+               }
             //    case SQLITE_BLOB:    cout << "BLOB " << endl;
             //         cout << "Size of blob: " << sqlite3_column_bytes(up_stmt.get(), col) << endl;
             //         struct tm *blobRetreived;
             //         blobRetreived = (struct tm *) sqlite3_column_blob(up_stmt.get(), col);
             //         cout << "Year retrieved from blob: " << blobRetreived->tm_year+1900 << endl;
             //         break;
-               case SQLITE_NULL:
+               case SQLITE_NULL:{
                     sqlValue = SqlValue(colName);
                     break;
+               }
                default: 
                     break;
             }
@@ -96,33 +103,39 @@ int DB::select(const char* sql, sqlResult& result){
     sqlite3_stmt* stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL );
     sqlstmt up_stmt{stmt};
-    int rows;
+    int rows = 0;
     while (sqlite3_step(up_stmt.get()) == SQLITE_ROW){
         rows++;
         vector<SqlValue> row;
         for(int col=0; col < sqlite3_column_count(up_stmt.get()); col++)
         {
-            const char* colName = sqlite3_column_name(up_stmt.get(), col);
+            const char* colName = strdup(sqlite3_column_name(up_stmt.get(), col));
             switch(sqlite3_column_type(up_stmt.get(), col))
             {
-               case SQLITE_INTEGER: 
+               case SQLITE_INTEGER: {
                     row.push_back(SqlValue(colName, sqlite3_column_int(up_stmt.get(), col)));
                     break;
-               case SQLITE_FLOAT:
+                }
+               case SQLITE_FLOAT:{
                     row.push_back(SqlValue(colName, (float)sqlite3_column_double(up_stmt.get(), col)));
                     break;
-               case SQLITE_TEXT:
-                    row.push_back(SqlValue(colName, sqlite3_column_text(up_stmt.get(), col)));
+                }
+               case SQLITE_TEXT:{
+                    const unsigned char* ucharVal = sqlite3_column_text(up_stmt.get(), col);
+                    string strVal(reinterpret_cast<const char*>(ucharVal));
+                    row.push_back(SqlValue(colName, strVal));
                     break;
+               }
             //    case SQLITE_BLOB:    cout << "BLOB " << endl;
             //         cout << "Size of blob: " << sqlite3_column_bytes(up_stmt.get(), col) << endl;
             //         struct tm *blobRetreived;
             //         blobRetreived = (struct tm *) sqlite3_column_blob(up_stmt.get(), col);
             //         cout << "Year retrieved from blob: " << blobRetreived->tm_year+1900 << endl;
             //         break;
-               case SQLITE_NULL:
+               case SQLITE_NULL:{
                     row.push_back(SqlValue(colName));
                     break;
+                }
                default: 
                     break;
             }

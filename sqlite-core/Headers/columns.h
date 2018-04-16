@@ -6,8 +6,9 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include "datadefinition.h"
 
-
+using namespace std;
 /**
  * This is a class that holds data for one row or one 
  * object at a time. It can hold data for only int, 
@@ -17,7 +18,6 @@
  * seemlessly add values to the internal associative 
  * containers.
 */
-using namespace std;
 class Columns{
 public:
     bool get(const char* key, int& refVar);
@@ -29,14 +29,8 @@ public:
     void set(const char* key, const float value);
     void set(const char* key, const string value);
     void set(const char* key, const bool value);
-    
-    /**
-     * A helper function to pass data to classes that 
-     * handle database operations. It holds names of 
-     * the columns, there values in sql-context sensitive 
-     * format and a char depicting data-type.
-    */
-    tuple<vector<string>, vector<string>, vector<char>> getNamesAndValues();
+
+    virtual schema getschema() const;
 
     void clear(){
         m_intColumns.clear();
@@ -45,10 +39,10 @@ public:
         m_dblColumns.clear();
     }
 
-    std::map<const char*, int> m_intColumns;
-    std::map<const char*, string> m_strColumns;
-    std::map<const char*, bool> m_boolColumns;
-    std::map<const char*, float> m_dblColumns;
+    mapInt m_intColumns;
+    mapStr m_strColumns;
+    mapBool m_boolColumns;
+    mapFloat m_dblColumns;
 
 };
 

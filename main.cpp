@@ -43,6 +43,16 @@ class UATData: public Entity
         set("NIC", NIC);        
         set("Sig", Sig);
     }    
+
+    schema getschema() const override{
+        return {
+            {"Latitude", PLAT_INT},
+            {"Longitude", PLAT_INT},
+            {"AirGroundState", PLAT_BOOL},
+            {"Sig", PLAT_DBL},
+            {"NIC", PLAT_STR}
+        };
+    }
 };
 
 /**
@@ -70,6 +80,7 @@ int main(){
      * that follows a specific creation policy can be used. 
      * Such functions can also be shifted to a factory.
     */
+   SqlValue s("name", 1);
      UATData u = UATDBManager::instance()
         .Create<UATData>("/home/manish/git/sqlite-api/test.db", "UAT");
      u.Save();

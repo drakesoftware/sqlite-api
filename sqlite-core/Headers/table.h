@@ -1,10 +1,8 @@
 #ifndef TABEL_H
 #define TABEL_H
 #include "db.h"
-#include "columns.h"
 #include <utility>
 
-class SqlFieldCreatorFromTypeStr;
 /**
  * This class is a broker between the front end 
  * classes and the DB class that handles core db 
@@ -17,8 +15,8 @@ public:
     Table(const char* tableName, const char* dbName);    
     inline bool istableTouched(){return m_tableTouched; }
     bool exists();
-    void create(vector<string> names, vector<char> types);
-    void save(vector<string> names, vector<string> values, vector<char> types);
+    void create(vector<SqlField> fields);
+    void save(vector<SqlValue> values);
     int get(sqlResult& results, int limit = 0);
 private:
     const char* m_name;
