@@ -1,0 +1,152 @@
+\hypertarget{classColumns}{}\section{Columns Class Reference}
+\label{classColumns}\index{Columns@{Columns}}
+
+
+{\ttfamily \#include \char`\"{}columns.\+h\char`\"{}}
+
+
+
+Inheritance diagram for Columns\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=138pt]{classColumns__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classColumns_a4467704e26d0899a5873df4a28978cd2}{get}} (const char $\ast$key, int \&ref\+Var)
+\item 
+bool \mbox{\hyperlink{classColumns_acc2d0655f5329b618cdb31c844214daa}{get}} (const char $\ast$key, float \&ref\+Var)
+\item 
+bool \mbox{\hyperlink{classColumns_a4cb8a06d153469b71aa4de37968d6277}{get}} (const char $\ast$key, string \&ref\+Var)
+\item 
+bool \mbox{\hyperlink{classColumns_adf2ef04de02351dcbb3ab7e1fed5a7fe}{get}} (const char $\ast$key, bool \&ref\+Var)
+\item 
+void \mbox{\hyperlink{classColumns_a878cae2a1f8d3ee9e3b3f8dfae5a4a10}{set}} (const char $\ast$key, const int \&value)
+\item 
+void \mbox{\hyperlink{classColumns_a2c67a52aadc3501d509ff03a4990cada}{set}} (const char $\ast$key, const float \&value)
+\item 
+void \mbox{\hyperlink{classColumns_a1c0dc9986943b8152fa80dd53277fbd0}{set}} (const char $\ast$key, const string \&value)
+\item 
+void \mbox{\hyperlink{classColumns_a5eb2a1336790ed61ff1593561ebf6736}{set}} (const char $\ast$key, const bool \&value)
+\item 
+virtual \mbox{\hyperlink{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}{schema}} \mbox{\hyperlink{classColumns_aeb2cbb10de5358d5c1f411f327324c94}{getschema}} () const
+\item 
+void \mbox{\hyperlink{classColumns_a47d00e2daee2c85a40952509a542a911}{clear}} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}{map\+Int}} \mbox{\hyperlink{classColumns_a8cbc620473c96a5e587fec5a7d7be695}{m\+\_\+int\+Columns}}
+\item 
+\mbox{\hyperlink{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}{map\+Str}} \mbox{\hyperlink{classColumns_a2a592e1dfc29b2daed0013d085854aa3}{m\+\_\+str\+Columns}}
+\item 
+\mbox{\hyperlink{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}{map\+Bool}} \mbox{\hyperlink{classColumns_a454542a78d6dc1013881e2c3abdbd9f7}{m\+\_\+bool\+Columns}}
+\item 
+\mbox{\hyperlink{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}{map\+Float}} \mbox{\hyperlink{classColumns_ac0b423f0dcaa97fe42e2a0283c13d9bc}{m\+\_\+dbl\+Columns}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a class that holds data for one row or one object at a time. It can hold data for only int, string, bool, float. But can be easily extended for more data types limited only by the ones supported by sqlite3. The specialized templated functions help seemlessly add values to the internal associative containers. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classColumns_a47d00e2daee2c85a40952509a542a911}\label{classColumns_a47d00e2daee2c85a40952509a542a911}} 
+\index{Columns@{Columns}!clear@{clear}}
+\index{clear@{clear}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Columns\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classColumns_a4467704e26d0899a5873df4a28978cd2}\label{classColumns_a4467704e26d0899a5873df4a28978cd2}} 
+\index{Columns@{Columns}!get@{get}}
+\index{get@{get}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily bool Columns\+::get (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{int \&}]{ref\+Var }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_acc2d0655f5329b618cdb31c844214daa}\label{classColumns_acc2d0655f5329b618cdb31c844214daa}} 
+\index{Columns@{Columns}!get@{get}}
+\index{get@{get}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily bool Columns\+::get (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{float \&}]{ref\+Var }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_a4cb8a06d153469b71aa4de37968d6277}\label{classColumns_a4cb8a06d153469b71aa4de37968d6277}} 
+\index{Columns@{Columns}!get@{get}}
+\index{get@{get}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily bool Columns\+::get (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{string \&}]{ref\+Var }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_adf2ef04de02351dcbb3ab7e1fed5a7fe}\label{classColumns_adf2ef04de02351dcbb3ab7e1fed5a7fe}} 
+\index{Columns@{Columns}!get@{get}}
+\index{get@{get}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily bool Columns\+::get (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{bool \&}]{ref\+Var }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_aeb2cbb10de5358d5c1f411f327324c94}\label{classColumns_aeb2cbb10de5358d5c1f411f327324c94}} 
+\index{Columns@{Columns}!getschema@{getschema}}
+\index{getschema@{getschema}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{getschema()}{getschema()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}{schema}} Columns\+::getschema (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classUATData_a33290ef354a04c15d5262ccc7500411b}{U\+A\+T\+Data}}.
+
+\mbox{\Hypertarget{classColumns_a878cae2a1f8d3ee9e3b3f8dfae5a4a10}\label{classColumns_a878cae2a1f8d3ee9e3b3f8dfae5a4a10}} 
+\index{Columns@{Columns}!set@{set}}
+\index{set@{set}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily void Columns\+::set (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{const int \&}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_a2c67a52aadc3501d509ff03a4990cada}\label{classColumns_a2c67a52aadc3501d509ff03a4990cada}} 
+\index{Columns@{Columns}!set@{set}}
+\index{set@{set}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily void Columns\+::set (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{const float \&}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_a1c0dc9986943b8152fa80dd53277fbd0}\label{classColumns_a1c0dc9986943b8152fa80dd53277fbd0}} 
+\index{Columns@{Columns}!set@{set}}
+\index{set@{set}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily void Columns\+::set (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{const string \&}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classColumns_a5eb2a1336790ed61ff1593561ebf6736}\label{classColumns_a5eb2a1336790ed61ff1593561ebf6736}} 
+\index{Columns@{Columns}!set@{set}}
+\index{set@{set}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily void Columns\+::set (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{const bool \&}]{value }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classColumns_a454542a78d6dc1013881e2c3abdbd9f7}\label{classColumns_a454542a78d6dc1013881e2c3abdbd9f7}} 
+\index{Columns@{Columns}!m\+\_\+bool\+Columns@{m\+\_\+bool\+Columns}}
+\index{m\+\_\+bool\+Columns@{m\+\_\+bool\+Columns}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{m\+\_\+bool\+Columns}{m\_boolColumns}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}{map\+Bool}} Columns\+::m\+\_\+bool\+Columns}
+
+\mbox{\Hypertarget{classColumns_ac0b423f0dcaa97fe42e2a0283c13d9bc}\label{classColumns_ac0b423f0dcaa97fe42e2a0283c13d9bc}} 
+\index{Columns@{Columns}!m\+\_\+dbl\+Columns@{m\+\_\+dbl\+Columns}}
+\index{m\+\_\+dbl\+Columns@{m\+\_\+dbl\+Columns}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{m\+\_\+dbl\+Columns}{m\_dblColumns}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}{map\+Float}} Columns\+::m\+\_\+dbl\+Columns}
+
+\mbox{\Hypertarget{classColumns_a8cbc620473c96a5e587fec5a7d7be695}\label{classColumns_a8cbc620473c96a5e587fec5a7d7be695}} 
+\index{Columns@{Columns}!m\+\_\+int\+Columns@{m\+\_\+int\+Columns}}
+\index{m\+\_\+int\+Columns@{m\+\_\+int\+Columns}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{m\+\_\+int\+Columns}{m\_intColumns}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}{map\+Int}} Columns\+::m\+\_\+int\+Columns}
+
+\mbox{\Hypertarget{classColumns_a2a592e1dfc29b2daed0013d085854aa3}\label{classColumns_a2a592e1dfc29b2daed0013d085854aa3}} 
+\index{Columns@{Columns}!m\+\_\+str\+Columns@{m\+\_\+str\+Columns}}
+\index{m\+\_\+str\+Columns@{m\+\_\+str\+Columns}!Columns@{Columns}}
+\subsubsection{\texorpdfstring{m\+\_\+str\+Columns}{m\_strColumns}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}{map\+Str}} Columns\+::m\+\_\+str\+Columns}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+sqlite-\/core/\+Headers/\mbox{\hyperlink{columns_8h}{columns.\+h}}\item 
+sqlite-\/core/\+Sources/\mbox{\hyperlink{columns_8cpp}{columns.\+cpp}}\end{DoxyCompactItemize}

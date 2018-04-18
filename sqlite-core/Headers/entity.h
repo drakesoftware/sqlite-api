@@ -1,13 +1,12 @@
 #ifndef ENTITY_H
 #define ENTITY_H
-#include "table.h"
-#include "columns.h"
 #include <vector>
 #include <utility>
-#include "databroker.h"
+#include "columns.h"
+#include "table.h"
 
 
-
+class Table;
 /**
  * The bae class for any data type that we want to save 
  * to database. The class can be decomposed further to 
@@ -16,37 +15,16 @@
 */
 class Entity: public Columns{
 public:
-    Entity(const char* dbName, const char* tableName)
-        :m_table(tableName, dbName){}
-
-    void Save(){
-        clear();
-        setData();
-        
-        m_table.save(SqlValueFromColumn::create(*this));
-    }
-    virtual void setData(){};
+    Entity(const char* dbName, const char* tableName);
+    void Save();
+    virtual void setData();    
 protected:
     /**
      * A helper function that returns first value from db
     */
-    Columns first(){
-        sqlResult results;
-        int rows = m_table.get(results, 1);
-        if(rows > 0)
-            return ColumnsFromSqlValue::create(getschema(), results[0]);
-        else
-            return Columns();
-    }
-    Columns last(){
-        return first();
-    }
-    std::vector<Columns> all(){
-        std::vector<Columns>  vec;
-        
-        vec.push_back(first());
-        return vec;
-    }
+    Columns first();
+    Columns last();
+    std::vector<Columns> all();
 private:
     Table m_table;
 };

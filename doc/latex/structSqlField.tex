@@ -1,0 +1,85 @@
+\hypertarget{structSqlField}{}\section{Sql\+Field Struct Reference}
+\label{structSqlField}\index{Sql\+Field@{Sql\+Field}}
+
+
+{\ttfamily \#include \char`\"{}datadefinition.\+h\char`\"{}}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSqlField_af348c54a252bf9ae67e7f280737aa5d0}{Sql\+Field}} (const char $\ast$name, const \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}} \&type=\mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faa5ec7b1f6f558b362f5a9ced5f228c2b}{Sql\+Type\+Enum\+::\+S\+Q\+L\+\_\+\+S\+TR}}, const int \&sz=0, const bool \&is\+Key=false, const bool \&not\+Null=false)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static vector$<$ \mbox{\hyperlink{structSqlField}{Sql\+Field}} $>$ \mbox{\hyperlink{structSqlField_a4349ebac0f3a6ddbbd81fdb3fbc268f0}{from\+Sql\+Values}} (const vector$<$ \mbox{\hyperlink{structSqlValue}{Sql\+Value}} $>$ \&sql\+Values)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \mbox{\hyperlink{structSqlField_ace03689493f338658646e0ac61d3a885}{Name}}
+\item 
+\mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}} \mbox{\hyperlink{structSqlField_afb3221f041d06f2c792e0eef1195d0cf}{Type}}
+\item 
+int \mbox{\hyperlink{structSqlField_aef1c65782455a79a4797ed16bf7f296b}{Sz}}
+\item 
+bool \mbox{\hyperlink{structSqlField_a21d13bd62ab5c18b750f050c449a0c2e}{Is\+Key}}
+\item 
+bool \mbox{\hyperlink{structSqlField_aed207960cbeff50c17adc5a11f94b4a9}{Not\+Null}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structSqlField_af348c54a252bf9ae67e7f280737aa5d0}\label{structSqlField_af348c54a252bf9ae67e7f280737aa5d0}} 
+\index{Sql\+Field@{Sql\+Field}!Sql\+Field@{Sql\+Field}}
+\index{Sql\+Field@{Sql\+Field}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Sql\+Field()}{SqlField()}}
+{\footnotesize\ttfamily Sql\+Field\+::\+Sql\+Field (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name,  }\item[{const \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}} \&}]{type = {\ttfamily \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faa5ec7b1f6f558b362f5a9ced5f228c2b}{Sql\+Type\+Enum\+::\+S\+Q\+L\+\_\+\+S\+TR}}},  }\item[{const int \&}]{sz = {\ttfamily 0},  }\item[{const bool \&}]{is\+Key = {\ttfamily false},  }\item[{const bool \&}]{not\+Null = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structSqlField_a4349ebac0f3a6ddbbd81fdb3fbc268f0}\label{structSqlField_a4349ebac0f3a6ddbbd81fdb3fbc268f0}} 
+\index{Sql\+Field@{Sql\+Field}!from\+Sql\+Values@{from\+Sql\+Values}}
+\index{from\+Sql\+Values@{from\+Sql\+Values}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{from\+Sql\+Values()}{fromSqlValues()}}
+{\footnotesize\ttfamily static vector$<$\mbox{\hyperlink{structSqlField}{Sql\+Field}}$>$ Sql\+Field\+::from\+Sql\+Values (\begin{DoxyParamCaption}\item[{const vector$<$ \mbox{\hyperlink{structSqlValue}{Sql\+Value}} $>$ \&}]{sql\+Values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structSqlField_a21d13bd62ab5c18b750f050c449a0c2e}\label{structSqlField_a21d13bd62ab5c18b750f050c449a0c2e}} 
+\index{Sql\+Field@{Sql\+Field}!Is\+Key@{Is\+Key}}
+\index{Is\+Key@{Is\+Key}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Is\+Key}{IsKey}}
+{\footnotesize\ttfamily bool Sql\+Field\+::\+Is\+Key}
+
+\mbox{\Hypertarget{structSqlField_ace03689493f338658646e0ac61d3a885}\label{structSqlField_ace03689493f338658646e0ac61d3a885}} 
+\index{Sql\+Field@{Sql\+Field}!Name@{Name}}
+\index{Name@{Name}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Name}{Name}}
+{\footnotesize\ttfamily const char$\ast$ Sql\+Field\+::\+Name}
+
+\mbox{\Hypertarget{structSqlField_aed207960cbeff50c17adc5a11f94b4a9}\label{structSqlField_aed207960cbeff50c17adc5a11f94b4a9}} 
+\index{Sql\+Field@{Sql\+Field}!Not\+Null@{Not\+Null}}
+\index{Not\+Null@{Not\+Null}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Not\+Null}{NotNull}}
+{\footnotesize\ttfamily bool Sql\+Field\+::\+Not\+Null}
+
+\mbox{\Hypertarget{structSqlField_aef1c65782455a79a4797ed16bf7f296b}\label{structSqlField_aef1c65782455a79a4797ed16bf7f296b}} 
+\index{Sql\+Field@{Sql\+Field}!Sz@{Sz}}
+\index{Sz@{Sz}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Sz}{Sz}}
+{\footnotesize\ttfamily int Sql\+Field\+::\+Sz}
+
+\mbox{\Hypertarget{structSqlField_afb3221f041d06f2c792e0eef1195d0cf}\label{structSqlField_afb3221f041d06f2c792e0eef1195d0cf}} 
+\index{Sql\+Field@{Sql\+Field}!Type@{Type}}
+\index{Type@{Type}!Sql\+Field@{Sql\+Field}}
+\subsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}} Sql\+Field\+::\+Type}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sqlite-\/core/\+Headers/\mbox{\hyperlink{datadefinition_8h}{datadefinition.\+h}}\end{DoxyCompactItemize}

@@ -19,7 +19,7 @@ int DB::callback(void *data, int argc, char **argv, char **azColName){
    printf("\n");
    return 0;
 }
-sqldb DB::create(){
+sqldb DB::create() const{
     sqlite3* db;
     int rc = sqlite3_open(m_name, &db);
     sqldb up_db{db};
@@ -27,7 +27,7 @@ sqldb DB::create(){
     return up_db;
 }
 
-int DB::execScalar(const char* sql){
+int DB::execScalar(const char* sql) const{
     char *err_msg = 0;
     auto db = create();    
     
@@ -42,7 +42,7 @@ int DB::execScalar(const char* sql){
     return rc;
 }
 
-int DB::selectCountScalar(const char* sql){
+int DB::selectCountScalar(const char* sql) const {
     auto db = create();
     sqlite3_stmt* stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL );
@@ -52,7 +52,7 @@ int DB::selectCountScalar(const char* sql){
     return rows;
 }
 
-int DB::selectScalar(const char* sql, SqlValue& sqlValue){
+int DB::selectScalar(const char* sql, SqlValue& sqlValue) const {
     auto db = create();
     sqlite3_stmt* stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL );
@@ -96,7 +96,7 @@ int DB::selectScalar(const char* sql, SqlValue& sqlValue){
         return 0;
 }
 
-int DB::select(const char* sql, sqlResult& result){
+int DB::select(const char* sql, sqlResult& result) const {
     auto db = create();
     
     result.clear();

@@ -32,5 +32,6 @@
         "cmath": "cpp",
         "cstring": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "workbench.colorTheme": "Visual Studio Dark"
 }

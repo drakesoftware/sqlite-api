@@ -25,10 +25,10 @@ public:
     bool get(const char* key, string& refVar);
     bool get(const char* key, bool& refVar);
     
-    void set(const char* key, const int value);
-    void set(const char* key, const float value);
-    void set(const char* key, const string value);
-    void set(const char* key, const bool value);
+    void set(const char* key, const int& value);
+    void set(const char* key, const float& value);
+    void set(const char* key, const string& value);
+    void set(const char* key, const bool& value);
 
     virtual schema getschema() const;
 
@@ -43,7 +43,6 @@ public:
     mapStr m_strColumns;
     mapBool m_boolColumns;
     mapFloat m_dblColumns;
-
 };
 
 #endif //COLUMNS_H

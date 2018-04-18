@@ -1,0 +1,149 @@
+\hypertarget{datadefinition_8h}{}\section{sqlite-\/core/\+Headers/datadefinition.h File Reference}
+\label{datadefinition_8h}\index{sqlite-\/core/\+Headers/datadefinition.\+h@{sqlite-\/core/\+Headers/datadefinition.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+Include dependency graph for datadefinition.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{datadefinition_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{datadefinition_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSqlValue}{Sql\+Value}}
+\item 
+struct \mbox{\hyperlink{structSqlField}{Sql\+Field}}
+\item 
+struct \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{datadefinition_8h_a09c0cd32f8797a9ad3df7daa788656cc}{map\+Sql\+Value}} = map$<$ const char $\ast$, \mbox{\hyperlink{structSqlValue}{Sql\+Value}}, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\item 
+using \mbox{\hyperlink{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}{map\+Int}} = map$<$ const char $\ast$, int, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\item 
+using \mbox{\hyperlink{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}{map\+Str}} = map$<$ const char $\ast$, string, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\item 
+using \mbox{\hyperlink{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}{map\+Float}} = map$<$ const char $\ast$, float, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\item 
+using \mbox{\hyperlink{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}{map\+Bool}} = map$<$ const char $\ast$, bool, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\item 
+using \mbox{\hyperlink{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}{schema}} = map$<$ const char $\ast$, \mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}{Platform\+Type\+Enum}}, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}} $>$
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}{Platform\+Type\+Enum}} \{ \mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a34af25cf959804c283362a522fc7e804}{P\+L\+A\+T\+\_\+\+S\+TR}}, 
+\mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a0f52b78bd2e4914c36bba4a853541f19}{P\+L\+A\+T\+\_\+\+I\+NT}}, 
+\mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aad6c5381a50583862e50b7dac1c863b0}{P\+L\+A\+T\+\_\+\+D\+BL}}, 
+\mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aa08eaaceff28a17eeb47c485308ecce5}{P\+L\+A\+T\+\_\+\+B\+O\+OL}}
+ \}
+\item 
+enum \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}} \{ \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faa5ec7b1f6f558b362f5a9ced5f228c2b}{S\+Q\+L\+\_\+\+S\+TR}}, 
+\mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa460487fe5bd12482e12240aba6a08fae}{S\+Q\+L\+\_\+\+I\+NT}}, 
+\mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faf8e87d85b6cdee9030969a14f6ba011e}{S\+Q\+L\+\_\+\+D\+BL}}, 
+\mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa4c175fbb65c723226d182dbfd556136a}{N\+UL}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}\label{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!map\+Bool@{map\+Bool}}
+\index{map\+Bool@{map\+Bool}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{map\+Bool}{mapBool}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_a143e5002d845b09ca5dcaf1eda71d70f}{map\+Bool}} =  map$<$const char$\ast$, bool, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+\mbox{\Hypertarget{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}\label{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!map\+Float@{map\+Float}}
+\index{map\+Float@{map\+Float}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{map\+Float}{mapFloat}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_aeaff661fb97ce7aa76f32e7e308f3a15}{map\+Float}} =  map$<$const char$\ast$, float, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+\mbox{\Hypertarget{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}\label{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!map\+Int@{map\+Int}}
+\index{map\+Int@{map\+Int}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{map\+Int}{mapInt}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_aea73dfd4c959e6737c9c65474e4529ec}{map\+Int}} =  map$<$const char$\ast$, int, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+\mbox{\Hypertarget{datadefinition_8h_a09c0cd32f8797a9ad3df7daa788656cc}\label{datadefinition_8h_a09c0cd32f8797a9ad3df7daa788656cc}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!map\+Sql\+Value@{map\+Sql\+Value}}
+\index{map\+Sql\+Value@{map\+Sql\+Value}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{map\+Sql\+Value}{mapSqlValue}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_a09c0cd32f8797a9ad3df7daa788656cc}{map\+Sql\+Value}} =  map$<$const char$\ast$, \mbox{\hyperlink{structSqlValue}{Sql\+Value}}, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+\mbox{\Hypertarget{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}\label{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!map\+Str@{map\+Str}}
+\index{map\+Str@{map\+Str}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{map\+Str}{mapStr}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_a9ada3c20f161f474bb963207a7f7bde5}{map\+Str}} =  map$<$const char$\ast$, string, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+\mbox{\Hypertarget{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}\label{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!schema@{schema}}
+\index{schema@{schema}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{schema}{schema}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{datadefinition_8h_aec40b8d2d2c045d8af617ce94864651f}{schema}} =  map$<$const char$\ast$, \mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}{Platform\+Type\+Enum}}, \mbox{\hyperlink{structcmp__str}{cmp\+\_\+str}}$>$}
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}\label{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!Platform\+Type\+Enum@{Platform\+Type\+Enum}}
+\index{Platform\+Type\+Enum@{Platform\+Type\+Enum}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{Platform\+Type\+Enum}{PlatformTypeEnum}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485}{Platform\+Type\+Enum}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+L\+A\+T\+\_\+\+S\+TR@{P\+L\+A\+T\+\_\+\+S\+TR}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!P\+L\+A\+T\+\_\+\+S\+TR@{P\+L\+A\+T\+\_\+\+S\+TR}}}\mbox{\Hypertarget{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a34af25cf959804c283362a522fc7e804}\label{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a34af25cf959804c283362a522fc7e804}} 
+P\+L\+A\+T\+\_\+\+S\+TR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+L\+A\+T\+\_\+\+I\+NT@{P\+L\+A\+T\+\_\+\+I\+NT}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!P\+L\+A\+T\+\_\+\+I\+NT@{P\+L\+A\+T\+\_\+\+I\+NT}}}\mbox{\Hypertarget{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a0f52b78bd2e4914c36bba4a853541f19}\label{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485a0f52b78bd2e4914c36bba4a853541f19}} 
+P\+L\+A\+T\+\_\+\+I\+NT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+L\+A\+T\+\_\+\+D\+BL@{P\+L\+A\+T\+\_\+\+D\+BL}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!P\+L\+A\+T\+\_\+\+D\+BL@{P\+L\+A\+T\+\_\+\+D\+BL}}}\mbox{\Hypertarget{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aad6c5381a50583862e50b7dac1c863b0}\label{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aad6c5381a50583862e50b7dac1c863b0}} 
+P\+L\+A\+T\+\_\+\+D\+BL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+L\+A\+T\+\_\+\+B\+O\+OL@{P\+L\+A\+T\+\_\+\+B\+O\+OL}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!P\+L\+A\+T\+\_\+\+B\+O\+OL@{P\+L\+A\+T\+\_\+\+B\+O\+OL}}}\mbox{\Hypertarget{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aa08eaaceff28a17eeb47c485308ecce5}\label{datadefinition_8h_a5fcf79f0ca62a2c8a1c7f59c5974a485aa08eaaceff28a17eeb47c485308ecce5}} 
+P\+L\+A\+T\+\_\+\+B\+O\+OL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}\label{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}} 
+\index{datadefinition.\+h@{datadefinition.\+h}!Sql\+Type\+Enum@{Sql\+Type\+Enum}}
+\index{Sql\+Type\+Enum@{Sql\+Type\+Enum}!datadefinition.\+h@{datadefinition.\+h}}
+\subsubsection{\texorpdfstring{Sql\+Type\+Enum}{SqlTypeEnum}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9f}{Sql\+Type\+Enum}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+Q\+L\+\_\+\+S\+TR@{S\+Q\+L\+\_\+\+S\+TR}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!S\+Q\+L\+\_\+\+S\+TR@{S\+Q\+L\+\_\+\+S\+TR}}}\mbox{\Hypertarget{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faa5ec7b1f6f558b362f5a9ced5f228c2b}\label{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faa5ec7b1f6f558b362f5a9ced5f228c2b}} 
+S\+Q\+L\+\_\+\+S\+TR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+Q\+L\+\_\+\+I\+NT@{S\+Q\+L\+\_\+\+I\+NT}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!S\+Q\+L\+\_\+\+I\+NT@{S\+Q\+L\+\_\+\+I\+NT}}}\mbox{\Hypertarget{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa460487fe5bd12482e12240aba6a08fae}\label{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa460487fe5bd12482e12240aba6a08fae}} 
+S\+Q\+L\+\_\+\+I\+NT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+Q\+L\+\_\+\+D\+BL@{S\+Q\+L\+\_\+\+D\+BL}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!S\+Q\+L\+\_\+\+D\+BL@{S\+Q\+L\+\_\+\+D\+BL}}}\mbox{\Hypertarget{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faf8e87d85b6cdee9030969a14f6ba011e}\label{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9faf8e87d85b6cdee9030969a14f6ba011e}} 
+S\+Q\+L\+\_\+\+D\+BL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N\+UL@{N\+UL}!datadefinition.\+h@{datadefinition.\+h}}\index{datadefinition.\+h@{datadefinition.\+h}!N\+UL@{N\+UL}}}\mbox{\Hypertarget{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa4c175fbb65c723226d182dbfd556136a}\label{datadefinition_8h_ad06ef517a8bb3398f146f81f18988b9fa4c175fbb65c723226d182dbfd556136a}} 
+N\+UL&\\
+\hline
+
+\end{DoxyEnumFields}

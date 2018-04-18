@@ -1,60 +1,141 @@
-CFLAGS = -c -std=c++11
 
-LDFLAGS = -lsqlite3
 
-DEBUG = -g
+INCLUDEDIRS= sqlite-core/Headers
 
-TARGET = telsql
+EGINC = example/uat example/uat/adsb_uat example/utilities
 
-BUILDIR = build
+LIBS=   -l sqlite3 -lreadline -lzmq
 
-INCLUDE = -Isqlite-core/Headers
+VPATH =  sqlite-core/Sources
+EGVPATH = example/uat example/uat/adsb_uat
 
-SQLITECORE_HEADERS = 	sqlite-core/Headers/dbmanager.h \
-						sqlite-core/Headers/datadefinition.h \
-						sqlite-core/Headers/databroker.h \
-						sqlite-core/Headers/db.h \
-						sqlite-core/Headers/table.h \
-						sqlite-core/Headers/entity.h \
-						sqlite-core/Headers/columns.h \
+DEBUG=-g
 
-SQLITECORE_SOURCES = 	sqlite-core/Sources/dbmanager.cpp \
-						sqlite-core/Sources/db.cpp \
-						sqlite-core/Sources/table.cpp \
-						sqlite-core/Sources/entity.cpp \
-						sqlite-core/Sources/columns.cpp \
 
-SOURCES = 	main.cpp \
-			$(SQLITECORE_SOURCES) \
+TOPDIR=${PWD}
 
-OBJECTS = 	$(addprefix $(BUILDIR)/, \
-			main.o \
-			dbmanager.o \
-			db.o \
-			table.o \
-			entity.o \
-			columns.o)
+CPP=g++
 
-all: $(OBJECTS)
-	$(CXX) -o $(BUILDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS)
 
-$(BUILDIR)/dbmanager.o: sqlite-core/Sources/dbmanager.cpp sqlite-core/Headers/dbmanager.h 
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/dbmanager.cpp	
+ifdef DISABLE_READLINE
+DEFINES+=DISABLE_READLINE
+endif
 
-$(BUILDIR)/db.o: sqlite-core/Sources/db.cpp sqlite-core/Headers/db.h 
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/db.cpp	
+APPVERSION:= $(shell scripts/gversion.sh)
 
-$(BUILDIR)/table.o: sqlite-core/Sources/table.cpp sqlite-core/Headers/table.h 
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/table.cpp
 
-$(BUILDIR)/entity.o: sqlite-core/Sources/entity.cpp sqlite-core/Headers/entity.h 
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/entity.cpp
+SOSUBREV=0
 
-$(BUILDIR)/columns.o: sqlite-core/Sources/columns.cpp sqlite-core/Headers/columns.h 
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ sqlite-core/Sources/columns.cpp
 
-$(BUILDIR)/main.o: main.cpp
-	$(CXX) $(DEBUG) $(CFLAGS) $(INCLUDE) -o $@ main.cpp
+#Clean/dirty state
 
-clean:
-	$(RM) $(BUILDIR)/*
+
+DEFINE_ARGS=$(patsubst %,-D%, $(DEFINES))
+
+
+PROGRAM= telsql
+
+
+C_SOURCES=
+
+CPP_SOURCES= 	main.cpp \
+		dbmanager.cpp \
+		entity.cpp \
+		table.cpp \
+		db.cpp \
+		columns.cpp 
+
+EG_CPP_SOURCES = 	SelectedAltitude.cpp \
+    			CapabilityCodes.cpp \
+    			AVSize.cpp \
+    			icaocodes.cpp \
+    			BaroSetting.cpp \
+			Callsign.cpp \
+			VerticalVelocity.cpp \
+    			HorizontalVelocity.cpp \
+    			Latitude.cpp \
+    			GroundUplink.cpp \
+    			ADSB_Fields.cpp \
+    			OperationalModes.cpp \
+    			Altitude.cpp \
+    			SelectedHeading.cpp \
+    			Longitude.cpp \
+    			UATData.cpp 
+
+C_OBJECTS=$(patsubst %.c,%.o, $(C_SOURCES))
+
+CPP_OBJECTS=$(patsubst %.cpp,%.o, $(CPP_SOURCES))
+
+EG_CPP_OBJECTS = $(patsubst %.cpp,%.o, $(EG_CPP_SOURCES))
+
+CFLAGS=$(DEBUG)  -MMD $(INCPATH)  $(DEFINE_ARGS) -lpthread
+
+CPPFLAGS=$(DEBUG) -MMD $(INCPATH) -Wno-pmf-conversions -std=c++11 $(DEFINE_ARGS) -lpthread
+
+
+
+C_DEPS=$(C_SOURCES:.c=.d)
+
+CPP_DEPS=$(CPP_SOURCES:.cpp=.d)
+
+EG_CPP_DEPS=$(EG_CPP_SOURCES:.cpp=.d)
+
+OBJECTS=$(C_OBJECTS) $(CPP_OBJECTS)
+
+EGOBJECTS=$(OBJECTS) $(EG_CPP_OBJECTS)
+
+DEPS=$(C_DEPS) $(CPP_DEPS)
+
+
+INCLUDEDIR_ARGS=$(patsubst %,-I%, $(INCLUDEDIRS))
+
+EGINCDIR_ARGS=$(patsubst %,-I%, $(EGINC))
+
+
+%.o:%.c
+	$(CC) $(CFLAGS) -c $(INCLUDEDIR_ARGS) $(DEFINE_ARGS) -o $@  $<
+
+%.o:%.cpp
+	$(CPP) $(CPPFLAGS) -c $(INCLUDEDIR_ARGS) $(DEFINE_ARGS) -o $@  $<
+
+all: $(PROGRAM) 
+
+lib:
+	$(CPP) -shared -Wl,-soname, $(SONAME) -o $(SONAME).$(SOSUBREV) $(SOMODULES)
+
+
+example: $(EG)
+
+
+$(PROGRAM):$(OBJECTS) 
+	$(CPP) $(CPPFLAGS) -o $(PROGRAM)  $(OBJECTS)  $(LIBS) 
+
+
+
+$(OBJECTS): Makefile version.h
+
+
+$(EG):$(EGOBJECTS)
+	$(CPP) $(CPPFLAGS) -o $(PROGRAM)  $(OBJECTS) $(EGOBJECTS)  $(LIBS)
+
+
+version.h: 
+	@echo "const char *appversionstring=\"$(APPVERSION)\";" >$@
+
+
+test:
+	@echo $(CPP)
+	@echo $(CPPFLAGS)
+	@echo $(DEPS)
+	@echo $(DEFINES)
+	@echo $(OBJECTS)
+	@echo $(CPP_SOURCES)
+dox doc docs:
+	@doxygen
+
+clean: 
+	rm -f $(OBJECTS) $(PROGRAM) $(DEPS) version.h *.db
+	
+
+
+-include $(DEPS)

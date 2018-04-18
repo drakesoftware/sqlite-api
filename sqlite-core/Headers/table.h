@@ -13,11 +13,11 @@
 class Table{
 public:
     Table(const char* tableName, const char* dbName);    
-    inline bool istableTouched(){return m_tableTouched; }
-    bool exists();
-    void create(vector<SqlField> fields);
-    void save(vector<SqlValue> values);
-    int get(sqlResult& results, int limit = 0);
+    inline bool istableTouched() const {return m_tableTouched; }
+    bool exists() const;
+    void create(const vector<SqlField>& fields);
+    void save(const vector<SqlValue>& values);
+    int get(sqlResult& results, int limit = 0) const;
 private:
     const char* m_name;
     DB m_db;

@@ -6,14 +6,14 @@
 Table::Table(const char* tableName, const char* dbName): 
         m_name{tableName}, m_db{dbName}, m_tableTouched{false}{}
 
-bool Table::exists(){
+bool Table::exists() const {
         if(!m_tableTouched){
                 string sql = SqlFactory::TABLE_EXISTS(m_name);
                 int count = m_db.selectCountScalar(sql.data());
                 return count > 0;
         }
 }
-void Table::create(vector<SqlField> fields){
+void Table::create(const vector<SqlField>& fields){
         if(!exists()){
                 auto sqlCreateTable = SqlFactory::CREATE_TABLE(m_name, fields);
                 if(m_db.execScalar(sqlCreateTable.data()))
@@ -23,7 +23,7 @@ void Table::create(vector<SqlField> fields){
                 m_tableTouched = true;
 }
 
-void Table::save(vector<SqlValue> sqlValues){        
+void Table::save(const vector<SqlValue>& sqlValues) {        
         if(!istableTouched()) create(SqlField::fromSqlValues(sqlValues));
         vector<string> names, values;
         for(auto val: sqlValues){
@@ -34,7 +34,7 @@ void Table::save(vector<SqlValue> sqlValues){
         m_db.execScalar(sqlInsertTable.data());
 }
 
-int Table::get(sqlResult& results, int limit){
+int Table::get(sqlResult& results, int limit) const {
         string selectSql = SqlFactory::SELECT(m_name, limit);
         return m_db.select(selectSql.data(), results);
 }

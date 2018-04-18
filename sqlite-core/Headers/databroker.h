@@ -8,7 +8,7 @@
 
 class ColumnsFromSqlValue{
 public:  
-    static mapSqlValue mapFromVec(const vector<SqlValue> &values){
+    static mapSqlValue mapFromVec(const vector<SqlValue>& values){
         mapSqlValue valueMap;
         for(auto val: values){
             valueMap.insert(std::make_pair(val.Name, val));
@@ -16,7 +16,7 @@ public:
         return valueMap;
     }
 
-    static Columns create(schema schema, vector<SqlValue> values){
+    static Columns create(const schema& schema, const vector<SqlValue>& values){
         Columns cols;
         mapSqlValue valueMap = mapFromVec(values);
         for(auto pair: schema){
@@ -44,7 +44,7 @@ public:
 };
 class SqlValueFromColumn{
 public:
-    static vector<SqlValue> create(Columns &cols){
+    static vector<SqlValue> create(Columns& cols){
         vector<SqlValue> sqlValues;
         const schema &schema = cols.getschema();
 

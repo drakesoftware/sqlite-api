@@ -1,6 +1,5 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
-#include "entity.h"
 
 
 class DefaultDataCreationPolicy{
@@ -8,6 +7,22 @@ public:
     template<class AnyDataType>
     AnyDataType Create(const char* dbName, const char* tableName){        
         return AnyDataType();
+    }
+};
+/**
+ * This is a data creation policy with a templated 
+ * create function that creates the object for the 
+ * type passed as an argument. A group of objects 
+ * belonging to a specific domain (e.g. UAT) may 
+ * follow a specific pattern when instantiated. A 
+ * policy like this could be created for all such 
+ * objects belonging to that group.  
+*/
+class UATDomainCreationPolicy{
+public:
+    template<class UATDataType>
+    UATDataType Create(const char* dbName, const char* tableName){        
+        return UATDataType(dbName, tableName);
     }
 };
 
@@ -29,5 +44,9 @@ public:
     }
 private:    
 };
+
+
+
+typedef DbManager<UATDomainCreationPolicy> UATDBManager;
 
 #endif //DBMANAGER_H

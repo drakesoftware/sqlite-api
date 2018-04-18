@@ -14,6 +14,7 @@ enum PlatformTypeEnum{
     PLAT_BOOL
 };
 
+
 enum SqlTypeEnum{
     SQL_STR,
     SQL_INT,
@@ -36,11 +37,11 @@ struct SqlValue{
     float FltVal = 0;
     const char* Name;
     SqlValue() = default;
-    SqlValue(const char* name, int intVal):
+    SqlValue(const char* name, const int& intVal):
         Name(name), IntVal(intVal), Tp(SQL_INT){}
-    SqlValue(const char* name, string charVal):
+    SqlValue(const char* name, const string& charVal):
         Name(name), TxtVal(charVal), Tp(SQL_STR){}
-    SqlValue(const char* name, float dblVal):
+    SqlValue(const char* name, const float& dblVal):
         Name(name), FltVal(dblVal), Tp(SQL_DBL){}
     SqlValue(const char* name):
         Name(name), Tp(NUL){}
@@ -73,7 +74,7 @@ struct SqlField{
     bool IsKey;
     bool NotNull;
 
-    static vector<SqlField> fromSqlValues(vector<SqlValue> sqlValues){
+    static vector<SqlField> fromSqlValues(const vector<SqlValue>& sqlValues){
         vector<SqlField> fields;
         for(auto val:sqlValues){
             fields.push_back(SqlField(val.Name, val.Tp));

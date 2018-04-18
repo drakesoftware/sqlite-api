@@ -1,0 +1,97 @@
+\hypertarget{classDB}{}\section{DB Class Reference}
+\label{classDB}\index{DB@{DB}}
+
+
+{\ttfamily \#include \char`\"{}db.\+h\char`\"{}}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDB_a1a7f3eafecf0e5834f03026c7f42e7ad}{DB}} (const char $\ast$name)
+\item 
+\mbox{\hyperlink{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}{sqldb}} \mbox{\hyperlink{classDB_a669630d5015f0a02c649484feb228f57}{create}} () const
+\item 
+int \mbox{\hyperlink{classDB_aa81d5bd268236cb48a89717924c957d2}{exec\+Scalar}} (const char $\ast$sql) const
+\item 
+int \mbox{\hyperlink{classDB_a19e12469303264225f563b14c15bc2e6}{select\+Count\+Scalar}} (const char $\ast$sql) const
+\item 
+int \mbox{\hyperlink{classDB_a3b98437bd8c113a2bdd3a3bbbe499f85}{select\+Scalar}} (const char $\ast$sql, \mbox{\hyperlink{structSqlValue}{Sql\+Value}} \&sql\+Value) const
+\item 
+int \mbox{\hyperlink{classDB_a415cfd60411cfaaba4e88939a54e51eb}{select}} (const char $\ast$sql, \mbox{\hyperlink{db_8h_a356f4bbcc8528145c25584033ef0bcb8}{sql\+Result}} \&result) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{classDB_ac0dbe2bbb16c4519de0cc7754269abed}{callback}} (void $\ast$data, int argc, char $\ast$$\ast$argv, char $\ast$$\ast$az\+Col\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \mbox{\hyperlink{classDB_a8ab4c5c7842069a778f6d4f14c15ed65}{m\+\_\+name}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+All database related operations are performed in this class only. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDB_a1a7f3eafecf0e5834f03026c7f42e7ad}\label{classDB_a1a7f3eafecf0e5834f03026c7f42e7ad}} 
+\index{DB@{DB}!DB@{DB}}
+\index{DB@{DB}!DB@{DB}}
+\subsubsection{\texorpdfstring{D\+B()}{DB()}}
+{\footnotesize\ttfamily D\+B\+::\+DB (\begin{DoxyParamCaption}\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classDB_ac0dbe2bbb16c4519de0cc7754269abed}\label{classDB_ac0dbe2bbb16c4519de0cc7754269abed}} 
+\index{DB@{DB}!callback@{callback}}
+\index{callback@{callback}!DB@{DB}}
+\subsubsection{\texorpdfstring{callback()}{callback()}}
+{\footnotesize\ttfamily int D\+B\+::callback (\begin{DoxyParamCaption}\item[{void $\ast$}]{data,  }\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv,  }\item[{char $\ast$$\ast$}]{az\+Col\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classDB_a669630d5015f0a02c649484feb228f57}\label{classDB_a669630d5015f0a02c649484feb228f57}} 
+\index{DB@{DB}!create@{create}}
+\index{create@{create}!DB@{DB}}
+\subsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}{sqldb}} D\+B\+::create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+The create function returns a sqlite3 db held in a unique\+\_\+ptr, ensuring safety from memory leakage. \mbox{\Hypertarget{classDB_aa81d5bd268236cb48a89717924c957d2}\label{classDB_aa81d5bd268236cb48a89717924c957d2}} 
+\index{DB@{DB}!exec\+Scalar@{exec\+Scalar}}
+\index{exec\+Scalar@{exec\+Scalar}!DB@{DB}}
+\subsubsection{\texorpdfstring{exec\+Scalar()}{execScalar()}}
+{\footnotesize\ttfamily int D\+B\+::exec\+Scalar (\begin{DoxyParamCaption}\item[{const char $\ast$}]{sql }\end{DoxyParamCaption}) const}
+
+This function can be used for executing queries that are not run for any direct data. It can be used for Insert, Update, Delete. It returns if the operation executed successfully. \mbox{\Hypertarget{classDB_a415cfd60411cfaaba4e88939a54e51eb}\label{classDB_a415cfd60411cfaaba4e88939a54e51eb}} 
+\index{DB@{DB}!select@{select}}
+\index{select@{select}!DB@{DB}}
+\subsubsection{\texorpdfstring{select()}{select()}}
+{\footnotesize\ttfamily int D\+B\+::select (\begin{DoxyParamCaption}\item[{const char $\ast$}]{sql,  }\item[{\mbox{\hyperlink{db_8h_a356f4bbcc8528145c25584033ef0bcb8}{sql\+Result}} \&}]{result }\end{DoxyParamCaption}) const}
+
+The function most helpful with select statements. It returns a vector of a vector of a \mbox{\hyperlink{structSqlValue}{Sql\+Value}} (representing one column). The return value returns the number of rows present in the table against the query. \mbox{\Hypertarget{classDB_a19e12469303264225f563b14c15bc2e6}\label{classDB_a19e12469303264225f563b14c15bc2e6}} 
+\index{DB@{DB}!select\+Count\+Scalar@{select\+Count\+Scalar}}
+\index{select\+Count\+Scalar@{select\+Count\+Scalar}!DB@{DB}}
+\subsubsection{\texorpdfstring{select\+Count\+Scalar()}{selectCountScalar()}}
+{\footnotesize\ttfamily int D\+B\+::select\+Count\+Scalar (\begin{DoxyParamCaption}\item[{const char $\ast$}]{sql }\end{DoxyParamCaption}) const}
+
+The function can be used to find how many rows of data exist for a query or if a record exists in the table at all. It can be helpful for queries where we need to check if table exists. \mbox{\Hypertarget{classDB_a3b98437bd8c113a2bdd3a3bbbe499f85}\label{classDB_a3b98437bd8c113a2bdd3a3bbbe499f85}} 
+\index{DB@{DB}!select\+Scalar@{select\+Scalar}}
+\index{select\+Scalar@{select\+Scalar}!DB@{DB}}
+\subsubsection{\texorpdfstring{select\+Scalar()}{selectScalar()}}
+{\footnotesize\ttfamily int D\+B\+::select\+Scalar (\begin{DoxyParamCaption}\item[{const char $\ast$}]{sql,  }\item[{\mbox{\hyperlink{structSqlValue}{Sql\+Value}} \&}]{sql\+Value }\end{DoxyParamCaption}) const}
+
+The function helps getting one single value from any one column or the first column depending on the query. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classDB_a8ab4c5c7842069a778f6d4f14c15ed65}\label{classDB_a8ab4c5c7842069a778f6d4f14c15ed65}} 
+\index{DB@{DB}!m\+\_\+name@{m\+\_\+name}}
+\index{m\+\_\+name@{m\+\_\+name}!DB@{DB}}
+\subsubsection{\texorpdfstring{m\+\_\+name}{m\_name}}
+{\footnotesize\ttfamily const char$\ast$ D\+B\+::m\+\_\+name\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+sqlite-\/core/\+Headers/\mbox{\hyperlink{db_8h}{db.\+h}}\item 
+sqlite-\/core/\+Sources/\mbox{\hyperlink{db_8cpp}{db.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,60 @@
+\hypertarget{db_8h}{}\section{sqlite-\/core/\+Headers/db.h File Reference}
+\label{db_8h}\index{sqlite-\/core/\+Headers/db.\+h@{sqlite-\/core/\+Headers/db.\+h}}
+{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}datadefinition.\+h\char`\"{}}\newline
+Include dependency graph for db.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsqlite3__deleter}{sqlite3\+\_\+deleter}}
+\item 
+struct \mbox{\hyperlink{structsqlite3__stmt__deleter}{sqlite3\+\_\+stmt\+\_\+deleter}}
+\item 
+class \mbox{\hyperlink{classDB}{DB}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}{sqldb}} = std\+::unique\+\_\+ptr$<$ sqlite3, \mbox{\hyperlink{structsqlite3__deleter}{sqlite3\+\_\+deleter}} $>$
+\item 
+using \mbox{\hyperlink{db_8h_a9c9e9eb73219858e1bd90c84d44e9728}{sqlstmt}} = std\+::unique\+\_\+ptr$<$ sqlite3\+\_\+stmt, \mbox{\hyperlink{structsqlite3__stmt__deleter}{sqlite3\+\_\+stmt\+\_\+deleter}} $>$
+\item 
+using \mbox{\hyperlink{db_8h_a356f4bbcc8528145c25584033ef0bcb8}{sql\+Result}} = std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{structSqlValue}{Sql\+Value}} $>$ $>$
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}\label{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}} 
+\index{db.\+h@{db.\+h}!sqldb@{sqldb}}
+\index{sqldb@{sqldb}!db.\+h@{db.\+h}}
+\subsubsection{\texorpdfstring{sqldb}{sqldb}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{db_8h_a8c50929ef9b94683ef6653b885e5b9ed}{sqldb}} =  std\+::unique\+\_\+ptr$<$sqlite3, \mbox{\hyperlink{structsqlite3__deleter}{sqlite3\+\_\+deleter}}$>$}
+
+\mbox{\Hypertarget{db_8h_a356f4bbcc8528145c25584033ef0bcb8}\label{db_8h_a356f4bbcc8528145c25584033ef0bcb8}} 
+\index{db.\+h@{db.\+h}!sql\+Result@{sql\+Result}}
+\index{sql\+Result@{sql\+Result}!db.\+h@{db.\+h}}
+\subsubsection{\texorpdfstring{sql\+Result}{sqlResult}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{db_8h_a356f4bbcc8528145c25584033ef0bcb8}{sql\+Result}} =  std\+::vector$<$std\+::vector$<$\mbox{\hyperlink{structSqlValue}{Sql\+Value}}$>$ $>$}
+
+\mbox{\Hypertarget{db_8h_a9c9e9eb73219858e1bd90c84d44e9728}\label{db_8h_a9c9e9eb73219858e1bd90c84d44e9728}} 
+\index{db.\+h@{db.\+h}!sqlstmt@{sqlstmt}}
+\index{sqlstmt@{sqlstmt}!db.\+h@{db.\+h}}
+\subsubsection{\texorpdfstring{sqlstmt}{sqlstmt}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{db_8h_a9c9e9eb73219858e1bd90c84d44e9728}{sqlstmt}} =  std\+::unique\+\_\+ptr$<$sqlite3\+\_\+stmt, \mbox{\hyperlink{structsqlite3__stmt__deleter}{sqlite3\+\_\+stmt\+\_\+deleter}}$>$}
+
