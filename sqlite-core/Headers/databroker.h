@@ -54,21 +54,21 @@ public:
                 case PLAT_STR:
                 {
                     string val = "";
-                    cols.get(name, val);
+                    cols.get(val, name);
                     sqlValues.push_back(SqlValue(name, val));
                     break;
                 }
                 case PLAT_DBL:
                 {
                     float val = 0.0;
-                    cols.get(name, val);
+                    cols.get(val, name);
                     sqlValues.push_back(SqlValue(name, val));
                     break;
                 }
                 case PLAT_BOOL:
                 {
                     bool val = false;
-                    cols.get(name, val);
+                    cols.get(val, name);
                     sqlValues.push_back(SqlValue(name, val));
                     break;
                 }
@@ -76,7 +76,7 @@ public:
                 default:
                 {
                     int val = 0;
-                    cols.get(name, val);
+                    cols.get(val, name);
                     sqlValues.push_back(SqlValue(name, val));
                     break;
                 }

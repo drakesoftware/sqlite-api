@@ -11,8 +11,6 @@ void Entity::Save(){
     m_table.save(SqlValueFromColumn::create(*this));
 }
 
-void Entity::setData(){};
-
 Columns Entity::first(){
         sqlResult results;
         int rows = m_table.get(results, 1);
@@ -28,7 +26,11 @@ Columns Entity::last(){
 
 std::vector<Columns> Entity::all(){
     std::vector<Columns>  vec;
-    
-    vec.push_back(first());
+    sqlResult results;
+    int rows = m_table.get(results);
+    for(auto row: results){
+        Columns cols = ColumnsFromSqlValue::create(getschema(), row);
+        vec.push_back(cols);
+    }    
     return vec;
 }

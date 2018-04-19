@@ -3,6 +3,7 @@
 #include "db.h"
 #include "table.h"
 #include "entity.h"
+#include "appdata.h"
 
 /**
  * Test data, derives from Enity class to support 
@@ -26,12 +27,8 @@ class UATData: public Entity
         Sig(2.25),
         NIC{"The NIC"}{
             auto firstRow = first();
-            firstRow.get("Latitude", Latitude);
-            firstRow.get("Longitude", Longitude);
-            firstRow.get("AirGroundState", AirGroundState);
-            firstRow.get("NIC", NIC);
-            firstRow.get("Sig", Sig);
-    }    
+            reset(firstRow);
+    }  
     /**
      * Overridden function, called internally when 
      * save is called on this entity object
@@ -43,6 +40,14 @@ class UATData: public Entity
         set("NIC", NIC);        
         set("Sig", Sig);
     }    
+    
+    void reset(Columns col) {
+        col.get(Latitude,"Latitude");
+        col.get(Longitude,"Longitude");
+        col.get(AirGroundState, "AirGroundState");
+        col.get(NIC,"NIC");
+        col.get(Sig,"Sig");
+    }
 
     schema getschema() const override{
         return {
@@ -57,15 +62,22 @@ class UATData: public Entity
 
 
 int main(){
-    /**
-     * When creating an object, a singleton of DBManager 
-     * that follows a specific creation policy can be used. 
-     * Such functions can also be shifted to a factory.
-    */
+    // /**
+    //  * When creating an object, a singleton of DBManager 
+    //  * that follows a specific creation policy can be used. 
+    //  * Such functions can also be shifted to a factory.
+    // */
    
-     UATData u(
-         /*Database name->*/ "/home/manish/git/sqlite-api/test.db", 
-         /*Table name->*/ "UAT");
-     u.Save();
+    //  UATData u(
+    //      /*Database name->*/ "/home/manish/git/sqlite-api/test.db", 
+    //      /*Table name->*/ "UAT");
+    //  u.Save();
+    AppData("app.db", "data", 1, "FName", "Manish1" ).Save();
+    AppData("app.db", "data", 1, "LName", "Verma1" ).Save();
+    
+    auto all = Entity::All(AppData("app.db", "data", 1, "", ""));
+    for(auto ad: all){
+        cout << ad.key() << ":" << ad.value() << endl;
+    }
     return 0;
 }

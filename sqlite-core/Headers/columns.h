@@ -19,18 +19,21 @@ using namespace std;
  * containers.
 */
 class Columns{
+
+protected:
+
 public:
-    bool get(const char* key, int& refVar);
-    bool get(const char* key, float& refVar);
-    bool get(const char* key, string& refVar);
-    bool get(const char* key, bool& refVar);
+    virtual schema getschema() const{return {};}
+    
+    bool get(int& refVar   , const char* key);
+    bool get(float& refVar , const char* key);
+    bool get(string& refVar, const char* key);
+    bool get(bool& refVar  , const char* key);
     
     void set(const char* key, const int& value);
     void set(const char* key, const float& value);
     void set(const char* key, const string& value);
     void set(const char* key, const bool& value);
-
-    virtual schema getschema() const;
 
     void clear(){
         m_intColumns.clear();
@@ -43,6 +46,7 @@ public:
     mapStr m_strColumns;
     mapBool m_boolColumns;
     mapFloat m_dblColumns;
+    
 };
 
 #endif //COLUMNS_H

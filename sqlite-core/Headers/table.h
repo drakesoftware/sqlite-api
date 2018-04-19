@@ -12,7 +12,7 @@
 */
 class Table{
 public:
-    Table(const char* tableName, const char* dbName);    
+    Table(const char* tableName, const char* dbName);   
     inline bool istableTouched() const {return m_tableTouched; }
     bool exists() const;
     void create(const vector<SqlField>& fields);

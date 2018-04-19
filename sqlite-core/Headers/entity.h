@@ -16,14 +16,44 @@ class Table;
 class Entity: public Columns{
 public:
     Entity(const char* dbName, const char* tableName);
+
     void Save();
-    virtual void setData();    
-protected:
+
+    template<class t>
+    static vector<t> All(t entity){
+        vector<t> vec;
+        auto cols = entity.all();
+        for(auto& col: cols){
+            auto item = t(entity);
+            item.reset(col);
+            vec.push_back(item);
+        }
+        return vec;
+    }
+    
+    template<class t>
+    static t First(t entity){
+        vector<t> vec;
+        auto col = entity.first();
+        auto item = t(entity);
+        item.reset(col);
+        return item;       
+    }
+protected:    
+    Entity(Table t):m_table(t){};
+    virtual void setData() = 0;   
+    virtual void reset(Columns col) = 0;
     /**
-     * A helper function that returns first value from db
+     * Helper function that returns firstl value from db
     */
     Columns first();
+    /**
+     * Helper function that returns last value from db
+    */
     Columns last();
+    /**
+     * Helper function that returns all values from db
+    */
     std::vector<Columns> all();
 private:
     Table m_table;

@@ -31,11 +31,11 @@ enum SqlTypeEnum{
  * begin with, it could be converted into a union.
 */
 struct SqlValue{
-    SqlTypeEnum Tp;
+    const char* Name;
     int IntVal = 0;
     string TxtVal = "";
     float FltVal = 0;
-    const char* Name;
+    SqlTypeEnum Tp;
     SqlValue() = default;
     SqlValue(const char* name, const int& intVal):
         Name(name), IntVal(intVal), Tp(SQL_INT){}

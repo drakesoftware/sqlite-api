@@ -1,6 +1,6 @@
 #include "columns.h"
 
-bool Columns::get(const char* key, int& refVar) {
+bool Columns::get(int& refVar, const char* key) {
     auto find = m_intColumns.find(key);
     if(find == m_intColumns.end()){
         return false;
@@ -8,7 +8,7 @@ bool Columns::get(const char* key, int& refVar) {
     refVar = m_intColumns[key];
     return true;
 }
-bool Columns::get(const char* key, float& refVar) {
+bool Columns::get(float& refVar, const char* key) {
     auto find = m_dblColumns.find(key);
     if(find == m_dblColumns.end()){
         return false;
@@ -16,7 +16,7 @@ bool Columns::get(const char* key, float& refVar) {
     refVar = m_dblColumns[key];
     return true;
 }
-bool Columns::get(const char* key, string& refVar) {
+bool Columns::get(string& refVar, const char* key) {
     auto find = m_strColumns.find(key);
     if(find == m_strColumns.end()){
         return false;
@@ -24,7 +24,7 @@ bool Columns::get(const char* key, string& refVar) {
     refVar = m_strColumns[key];
     return true;
 }
-bool Columns::get(const char* key, bool& refVar) {
+bool Columns::get(bool& refVar, const char* key) {
     auto find = m_boolColumns.find(key);
     if(find == m_boolColumns.end()){
         return false;
@@ -62,7 +62,4 @@ void Columns::set(const char* key, const bool& value){
         m_boolColumns.insert(std::make_pair(key, value));
 }
 
-schema Columns::getschema() const{
-    return {{}};
-}
 

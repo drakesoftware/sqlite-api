@@ -43,7 +43,8 @@ CPP_SOURCES= 	main.cpp \
 		entity.cpp \
 		table.cpp \
 		db.cpp \
-		columns.cpp 
+		columns.cpp \
+		appdata.cpp
 
 EG_CPP_SOURCES = 	SelectedAltitude.cpp \
     			CapabilityCodes.cpp \
