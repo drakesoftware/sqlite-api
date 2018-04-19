@@ -26,10 +26,7 @@ void AppDataDao::editAppData(int id, QString column, QVariant value) const
 
 unique_ptr<vector<unique_ptr<AppData>>> AppDataDao::appData() const
 {
-    auto columns = a.all();
-    for(auto& col: columns){        
-        AppData(;
-    }
+    
 }
 
 

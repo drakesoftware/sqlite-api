@@ -14,7 +14,11 @@ private:
     string m_value;
 
 public:
-    AppData(const char* dbName, const char* tableName, const int userId, const string &key, const string &value);
+    AppData(const char* dbName, const char* tableName);
+    void populate(const int userId, const string &key, const string &value);
+    
+
+    
     void setData() override;
     void reset(Columns col) override;
 

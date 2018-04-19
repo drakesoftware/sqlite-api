@@ -4,9 +4,8 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <vector>
-#include <tuple>
 #include "datadefinition.h"
+
 
 using namespace std;
 /**
@@ -20,11 +19,8 @@ using namespace std;
 */
 class Columns{
 
-protected:
-
 public:
     virtual schema getschema() const{return {};}
-    
     bool get(int& refVar   , const char* key);
     bool get(float& refVar , const char* key);
     bool get(string& refVar, const char* key);
@@ -34,7 +30,6 @@ public:
     void set(const char* key, const float& value);
     void set(const char* key, const string& value);
     void set(const char* key, const bool& value);
-
     void clear(){
         m_intColumns.clear();
         m_strColumns.clear();
@@ -42,6 +37,7 @@ public:
         m_dblColumns.clear();
     }
 
+private:
     mapInt m_intColumns;
     mapStr m_strColumns;
     mapBool m_boolColumns;

@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include <vector>
 #include <map>
 
 using namespace std;
@@ -94,6 +95,7 @@ using mapInt = map<const char*, int, cmp_str>;
 using mapStr = map<const char*, string, cmp_str>;
 using mapFloat = map<const char*, float, cmp_str>;
 using mapBool = map<const char*, bool, cmp_str>;
+
 using schema = map<const char*, PlatformTypeEnum, cmp_str>;
 
 #endif //DATADEFINITION_H

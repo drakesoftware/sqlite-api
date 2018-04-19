@@ -72,12 +72,20 @@ int main(){
     //      /*Database name->*/ "/home/manish/git/sqlite-api/test.db", 
     //      /*Table name->*/ "UAT");
     //  u.Save();
-    AppData("app.db", "data", 1, "FName", "Manish1" ).Save();
-    AppData("app.db", "data", 1, "LName", "Verma1" ).Save();
-    
-    auto all = Entity::All(AppData("app.db", "data", 1, "", ""));
+
+    /*example*/
+    AppData appSettings("app.db", "data");
+
+    appSettings.populate(1, "distance", "25Ft");
+    appSettings.Save();
+
+    appSettings.populate(1, "port", "A");
+    appSettings.Save();
+
+    auto all = Entity::All(AppData("app.db", "data")/*or appSettings*/);
     for(auto ad: all){
         cout << ad.key() << ":" << ad.value() << endl;
     }
+    /*example*/
     return 0;
 }

@@ -1,20 +1,17 @@
 #include "appdata.h"
 
-
-AppData::AppData(const char* dbName, const char* tableName, const int userId, const string &key, const string &value):
-    Entity(dbName, tableName),
-    m_id{0},
-    m_userId{userId},
-    m_key{key},
-    m_value{value}
-{
+AppData::AppData(const char* dbName, const char* tableName):
+    Entity(dbName, tableName){
 
 }
-// AppData::AppData(const Entity& entity):
-//     Entity(entity)
-// {
+void AppData::populate(const int userId, const string &key, const string &value)
+{
+    m_id = 0;
+    m_userId = userId;
+    m_key = key;
+    m_value = value;
+}
 
-// }
 void AppData::setData() {    
     set("id", m_id);
     set("key", m_key);
