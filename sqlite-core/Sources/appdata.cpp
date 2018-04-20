@@ -6,21 +6,18 @@ AppData::AppData(const char* dbName, const char* tableName):
 }
 void AppData::populate(const int userId, const string &key, const string &value)
 {
-    m_id = 0;
     m_userId = userId;
     m_key = key;
     m_value = value;
 }
 
 void AppData::setData() {    
-    set("id", m_id);
     set("key", m_key);
     set("value", m_value);
     set("userId", m_userId);
 }
 
 void AppData::reset(Columns cols){
-    cols.get(m_id, "id");
     cols.get(m_key, "key");
     cols.get(m_value, "value");
     cols.get(m_userId, "userId");
@@ -28,22 +25,12 @@ void AppData::reset(Columns cols){
 
 schema AppData::getschema() const {
     return {
-        {"id", PLAT_INT},
         {"key", PLAT_STR},
         {"value", PLAT_STR},
         {"userId", PLAT_INT}
     };
 }
 
-int AppData::id() const
-{
-    return m_id;
-}
-
-void AppData::setId(const int id)
-{
-    m_id = id;
-}
 
 int AppData::userId() const
 {

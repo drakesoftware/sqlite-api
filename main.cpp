@@ -74,7 +74,7 @@ int main(){
     //  u.Save();
 
     /*example*/
-    AppData appSettings("app.db", "data");
+    AppData appSettings("app.db", "data1");
 //Insert 
     appSettings.populate(1, "distance", "25Ft");
     appSettings.Save();
@@ -82,7 +82,7 @@ int main(){
     appSettings.populate(1, "port", "A");
     appSettings.Save();
 //Select
-    auto all = Entity::All(AppData("app.db", "data")/*or appSettings*/);
+    auto all = Entity::All(AppData("app.db", "data1")/*or appSettings*/);
     for(auto ad: all){
         cout << ad.key() << ":" << ad.value() << endl;
     }

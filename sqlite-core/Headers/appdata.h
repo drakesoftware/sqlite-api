@@ -8,7 +8,6 @@ class   AppData: public Entity
 {
 
 private:
-    int m_id = 0;
     int m_userId = 0;
     string m_key;
     string m_value;
@@ -28,9 +27,6 @@ public:
     void setData() override;            //to get data from object into db
     void reset(Columns col) override;   //to get data from db into object
     /*----------------------------------------------*/
-
-    int id() const;
-    void setId(const int id);
 
     int userId()const;
     void setUserId(const int userId);

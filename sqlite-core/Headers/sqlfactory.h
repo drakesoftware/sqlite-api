@@ -122,7 +122,7 @@ public:
     static string TABLE_EXISTS(const char* tablename){
         ostringstream os;
         os
-            << "SELECT COUNT(type) FROM sqlite_master WHERE type='table' and name=" \
+            << "SELECT name FROM sqlite_master WHERE type='table' and name=" \
             << "'" \
             << tablename \
             << "'";
