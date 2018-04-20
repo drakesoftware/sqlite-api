@@ -19,6 +19,9 @@ public:
     static Columns create(const schema& schema, const vector<SqlValue>& values){
         Columns cols;
         mapSqlValue valueMap = mapFromVec(values);
+        
+        cols.set("_ID", valueMap["_ID"].IntVal);
+        
         for(auto pair: schema){
             const char* name = pair.first;
             switch(pair.second){

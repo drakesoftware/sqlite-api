@@ -2,13 +2,26 @@
 #include "databroker.h"
 
 Entity::Entity(const char* dbName, const char* tableName)
-    :m_table(tableName, dbName){}
+    :m_table(tableName, dbName), m__id{0}
+    {}
 
 void Entity::Save(){
     clear();
     setData();
 
     m_table.save(SqlValueFromColumn::create(*this));
+}
+
+void Entity::Remove(){
+    if(m__id > 0)
+        m_table.remove(m__id);
+}
+
+void Entity::Update(){
+    clear();
+    setData();
+
+    m_table.update(m__id, SqlValueFromColumn::create(*this));
 }
 
 Columns Entity::first(){

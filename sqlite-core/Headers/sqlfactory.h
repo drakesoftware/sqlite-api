@@ -78,6 +78,27 @@ private:
         return ss.str();
     }
 
+    static void dmlCat(
+        string& partSql,
+        vector<string>::iterator itrName, 
+        vector<string>::iterator itrValue, 
+        const vector<string>& names, 
+        const vector<string>& values){
+            ostringstream os;
+            os
+                << *itrName \
+                << " = " \
+                << *itrValue;
+            partSql += os.str();
+
+            ++itrName; ++itrValue;
+            if(itrName != names.end())
+            {
+                partSql += ", ";
+                dmlCat(partSql, itrName, itrValue, names, values);
+            }            
+        }
+
 public:
 
     static std::string treatSqlValue(string value, SqlTypeEnum type){
@@ -141,6 +162,7 @@ public:
 
             return ss.str();
     }
+
     static std::string INSERT_TABLE(
         const char* tableName, 
         vector<string> names, 
@@ -149,6 +171,24 @@ public:
             join(names, ',', strNames);
             join(values, ',', strValues);
             return INSERT_TABLE(tableName, strNames, strValues);    
+    }
+    
+    static std::string UPDATE_TABLE(
+        const char* tableName, 
+        const int& _id,
+        vector<string> names, 
+        vector<string> values){
+        ostringstream os;
+        string partSql;
+        dmlCat(partSql, names.begin(), values.begin(), names, values);
+        os 
+            << "UPDATE " \
+            << tableName << " "\
+            << "SET " \
+            << partSql << " " \
+            << "WHERE _ID = " \
+            << _id;
+        return os.str();
     }
     
     static std::string SELECT(const char* tableName, int count){
@@ -160,6 +200,17 @@ public:
             << "SELECT * FROM " \
             << tableName \
             << limit;
+        return os.str();
+    }
+
+    static std::string DELETE(const char* tableName, const int& _id){
+        ostringstream os;
+
+        os
+            << "DELETE FROM " \
+            << tableName << " "\
+            << "WHERE _ID = " \
+            << _id;
         return os.str();
     }
 };

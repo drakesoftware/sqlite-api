@@ -18,6 +18,8 @@ public:
     Entity(const char* dbName, const char* tableName);
 
     void Save();
+    void Update();
+    void Remove();
 
     template<class t>
     static vector<t> All(t entity){
@@ -26,6 +28,9 @@ public:
         for(auto& col: cols){
             auto item = t(entity);
             item.reset(col);
+            Entity& e = item;
+            col.get(e.m__id, "_ID");
+            e.setData();
             vec.push_back(item);
         }
         return vec;
@@ -37,6 +42,7 @@ public:
         auto col = entity.first();
         auto item = t(entity);
         item.reset(col);
+        item.setData();
         return item;       
     }
 protected:    
@@ -56,6 +62,7 @@ protected:
     */
     std::vector<Columns> all();
 private:
+    int m__id;
     Table m_table;
 };
 

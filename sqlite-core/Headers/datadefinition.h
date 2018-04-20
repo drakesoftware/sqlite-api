@@ -65,8 +65,8 @@ struct SqlField{
     SqlField(
         const char* name, 
         const SqlTypeEnum& type = SqlTypeEnum::SQL_STR, 
-        const int& sz = 0, 
         const bool& isKey = false, 
+        const int& sz = 0, 
         const bool& notNull = false):
         Name(name), Type(type), Sz(sz), IsKey(isKey), NotNull(notNull){}
     const char* Name;
