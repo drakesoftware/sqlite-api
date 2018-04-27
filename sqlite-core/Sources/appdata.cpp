@@ -61,14 +61,3 @@ void AppData::setValue(const string &value)
 {
     m_value = value;
 }
-
-vector<AppData> AppData::list(){
-    vector<AppData> vec;
-    auto cols = all();
-    for(auto& col: cols){
-        AppData a(*this);
-        a.reset(col);
-        vec.push_back(a);
-    }
-    return vec;
-}

@@ -1,7 +1,6 @@
 #ifndef SQLFACTORY_H
 #define SQLFACTORY_H
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <cstdio>
 #include <utility>
@@ -10,6 +9,25 @@
 
 using namespace std;
 
+string& operator<<(string& str1, const string& str2){
+    return str1.append(str2);
+}
+string& operator<<(string& str1, const char* cstr){
+    str1 += cstr;
+    return str1;
+}
+string& operator<<(string& str1, const int& num){
+    str1 += to_string(num);
+    return str1;
+}
+string& operator<<(string& str1, const double& dbl){
+    str1 += to_string(dbl);
+    return str1;
+}
+string& operator<<(string& str1, const float& flt){
+    str1 += to_string(flt);
+    return str1;
+}
 /**
  * This is the class where all sql strings are made 
  * out of the data that it receives from client objects. 
@@ -47,7 +65,7 @@ private:
     }
     
     static std::string fieldSpecs(SqlTypeEnum type, int sz = 0, bool isKey = false, bool notNull = false){
-        std::stringstream ss;
+        string ss;
         char szSpec[10];
         char keySpec[12];
         char nullSpec[10];
@@ -67,15 +85,19 @@ private:
         else
             sprintf(nullSpec, " ");
             
-        ss << SqlTypeEnum_To_Str(type) << szSpec << keySpec << nullSpec;
-        return ss.str();
+        ss 
+            << SqlTypeEnum_To_Str(type) \
+            << szSpec \
+            << keySpec \
+            << nullSpec;
+        return ss;
     }
 
     static std::string ddlCat(SqlField field){
-        std::stringstream ss;
+        string ss;
         ss << field.Name << " " << \
             fieldSpecs(field.Type, field.Sz, field.IsKey, field.NotNull);
-        return ss.str();
+        return ss;
     }
 
     static void dmlCat(
@@ -84,12 +106,12 @@ private:
         vector<string>::iterator itrValue, 
         const vector<string>& names, 
         const vector<string>& values){
-            ostringstream os;
+            string os;
             os
                 << *itrName \
                 << " = " \
                 << *itrValue;
-            partSql += os.str();
+            partSql += os;
 
             ++itrName; ++itrValue;
             if(itrName != names.end())
@@ -105,32 +127,32 @@ public:
         switch(type){
             case SQL_DBL:
             case SQL_INT:{
-                ostringstream os;
+                string os;
                 os << value;
-                return os.str();
+                return os;
             }
             case SQL_STR:
             default:{
-                ostringstream os;
+                string os;
                 os << "'" << value << "'";
-                return os.str();
+                return os;
             }
         }
     }
 
 
     static string TABLE_EXISTS(const char* tablename){
-        ostringstream os;
+        string os;
         os
             << "SELECT name FROM sqlite_master WHERE type='table' and name=" \
             << "'" \
             << tablename \
             << "'";
-        return os.str();
+        return os;
     }
 
     static std::string CREATE_TABLE(const char* tableName, vector<SqlField> sqlFields){        
-        std::ostringstream os;
+        string os;
         std::string fieldsList;
 
         for(auto sqlf: sqlFields){
@@ -145,11 +167,11 @@ public:
             << "( " \
             << fieldsList \
             << ");";
-        return os.str();
+        return os;
     }
     
     static std::string INSERT_TABLE(const char* tableName, std::string names, std::string values){
-            stringstream ss;        
+            string ss;        
             ss
                 << "INSERT INTO " \
                 << tableName \
@@ -160,7 +182,7 @@ public:
                 << values \
                 << ")";
 
-            return ss.str();
+            return ss;
     }
 
     static std::string INSERT_TABLE(
@@ -178,7 +200,7 @@ public:
         const int& _id,
         vector<string> names, 
         vector<string> values){
-        ostringstream os;
+        string os;
         string partSql;
         dmlCat(partSql, names.begin(), values.begin(), names, values);
         os 
@@ -188,11 +210,11 @@ public:
             << partSql << " " \
             << "WHERE _ID = " \
             << _id;
-        return os.str();
+        return os;
     }
     
     static std::string SELECT(const char* tableName, int count){
-        ostringstream os;
+        string os;
         std::string limit = "";
         if(count > 0)
             limit += " LIMIT " + to_string(count);
@@ -200,18 +222,18 @@ public:
             << "SELECT * FROM " \
             << tableName \
             << limit;
-        return os.str();
+        return os;
     }
 
     static std::string DELETE(const char* tableName, const int& _id){
-        ostringstream os;
+        string os;
 
         os
             << "DELETE FROM " \
             << tableName << " "\
             << "WHERE _ID = " \
             << _id;
-        return os.str();
+        return os;
     }
 };
 

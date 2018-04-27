@@ -37,7 +37,6 @@ public:
     string value()const;
     void setValue(const string &value);
 
-    vector<AppData> list();
 
 };
 
