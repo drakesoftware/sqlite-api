@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 string& operator<<(string& str1, const string& str2){
     return str1.append(str2);
 }
