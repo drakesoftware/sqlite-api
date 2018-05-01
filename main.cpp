@@ -7,18 +7,24 @@
 
 
 
-int main(){
-    /*example*/
+int main()
+{
+/*example*/
+
     AppData appSettings("app.db", "data1");
-//Insert 
+//Insert
     appSettings.populate(1, "distance", "25Ft");
     appSettings.Save();
 
     appSettings.populate(1, "port", "A");
     appSettings.Save();
 //Select
-    auto all = Entity::All(AppData("app.db", "data1")/*or appSettings*/);
-    for(auto ad: all){
+    auto all = Entity::Select(AppData("app.db", "data1"), 
+        apply_filter("key", string("distance"))
+        .AND()
+        .apply_filter("key", "25Ft"));
+    for(auto ad: all)
+    {
         cout << ad.key() << ":" << ad.value() << endl;
     }
 //Update
@@ -27,6 +33,7 @@ int main(){
     ad.Update();
 //Delete
     all.at(1).Remove();
-    /*example*/
+    
+/*example*/
     return 0;
 }

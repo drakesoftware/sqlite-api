@@ -1,7 +1,13 @@
 #include "appdata.h"
 
+// AppData::AppData():
+//     Entity{"app.db", "data1"}
+// {
+
+// }
 AppData::AppData(const char* dbName, const char* tableName):
-    Entity(dbName, tableName){
+    Entity(dbName, tableName)
+{
 
 }
 void AppData::populate(const int userId, const string &key, const string &value)
@@ -11,20 +17,24 @@ void AppData::populate(const int userId, const string &key, const string &value)
     m_value = value;
 }
 
-void AppData::setData() {    
+void AppData::setData()
+{
     set("key", m_key);
     set("value", m_value);
     set("userId", m_userId);
 }
 
-void AppData::reset(Columns cols){
+void AppData::reset(Columns cols)
+{
     cols.get(m_key, "key");
     cols.get(m_value, "value");
     cols.get(m_userId, "userId");
 }
 
-schema AppData::getschema() const {
-    return {
+schema AppData::getschema() const
+{
+    return
+    {
         {"key", PLAT_STR},
         {"value", PLAT_STR},
         {"userId", PLAT_INT}

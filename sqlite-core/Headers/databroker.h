@@ -6,25 +6,31 @@
 #include <utility>
 
 
-class ColumnsFromSqlValue{
-public:  
-    static mapSqlValue mapFromVec(const vector<SqlValue>& values){
+class ColumnsFromSqlValue
+{
+  public:
+    static mapSqlValue mapFromVec(const vector<SqlValue>& values)
+    {
         mapSqlValue valueMap;
-        for(auto val: values){
+        for(auto val: values)
+        {
             valueMap.insert(std::make_pair(val.Name, val));
         }
         return valueMap;
     }
 
-    static Columns create(const schema& schema, const vector<SqlValue>& values){
+    static Columns create(const schema& schema, const vector<SqlValue>& values)
+    {
         Columns cols;
         mapSqlValue valueMap = mapFromVec(values);
-        
+
         cols.set("_ID", valueMap["_ID"].IntVal);
-        
-        for(auto pair: schema){
+
+        for(auto pair: schema)
+        {
             const char* name = pair.first;
-            switch(pair.second){
+            switch(pair.second)
+            {
                 case PLAT_STR:
                     cols.set(name, valueMap[name].TxtVal);
                     break;
@@ -36,24 +42,28 @@ public:
                     break;
                 case PLAT_BOOL:
                     cols.set(name, (bool)valueMap[name].IntVal);
-                    break;   
+                    break;
                 default:
                     break;
             }
         }
-        
+
         return cols;
     }
 };
-class SqlValueFromColumn{
-public:
-    static vector<SqlValue> create(Columns& cols){
+class SqlValueFromColumn
+{
+  public:
+    static vector<SqlValue> create(Columns& cols)
+    {
         vector<SqlValue> sqlValues;
         const schema &schema = cols.getschema();
 
-        for(auto pair: schema){
+        for(auto pair: schema)
+        {
             const char* name =  pair.first;
-            switch(pair.second){
+            switch(pair.second)
+            {
                 case PLAT_STR:
                 {
                     string val = "";
