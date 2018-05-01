@@ -36,13 +36,11 @@ class Columns
     bool get(float& refVar , const char* key);
     bool get(string& refVar, const char* key);
     bool get(bool& refVar  , const char* key);
-    bool get(Columns& refVar  , const char* key);
 
     void set(const char* key, const int& value);
     void set(const char* key, const float& value);
     void set(const char* key, const string& value);
     void set(const char* key, const bool& value);
-    void set(const char* key, const Columns& value);
     void clear()
     {
         m_intColumns.clear();
@@ -56,7 +54,6 @@ class Columns
     mapStr m_strColumns;
     mapBool m_boolColumns;
     mapFloat m_dblColumns;
-    mapObj m_objColumns;
 };
 
 #endif //COLUMNS_H
