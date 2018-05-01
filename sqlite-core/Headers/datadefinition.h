@@ -13,7 +13,8 @@ enum PlatformTypeEnum
     PLAT_STR,
     PLAT_INT,
     PLAT_DBL,
-    PLAT_BOOL
+    PLAT_BOOL,
+    PLAT_OBJ
 };
 
 

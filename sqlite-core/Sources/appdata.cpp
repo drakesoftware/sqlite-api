@@ -31,7 +31,7 @@ void AppData::reset(Columns cols)
     cols.get(m_userId, "userId");
 }
 
-schema AppData::getschema() const
+schema AppData::getSchema() const
 {
     return
     {

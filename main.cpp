@@ -22,7 +22,7 @@ int main()
     auto all = Entity::Select(AppData("app.db", "data1"), 
         apply_filter("key", string("distance"))
         .AND()
-        .apply_filter("key", "25Ft"));
+        .apply_filter("value", string("25Ft")));
     for(auto ad: all)
     {
         cout << ad.key() << ":" << ad.value() << endl;

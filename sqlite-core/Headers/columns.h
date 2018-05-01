@@ -26,12 +26,25 @@ using mapObj = map<const char*, Columns>;
 */
 class Columns
 {
-
-  public:
-    virtual schema getschema() const
+private:
+    mapInt m_intColumns;
+    mapStr m_strColumns;
+    mapBool m_boolColumns;
+    mapFloat m_dblColumns;
+    mapObj m_objColumns;
+protected:
+    int getInt(const char* key);
+    float getFloat(const char* key);
+    string getString(const char* key);
+    bool getBool(const char* key);
+    Columns& getObject(const char* key);
+public:
+    virtual schema getSchema() const
     {
         return {};
     }
+    virtual void setData() {};
+    virtual void reset(Columns col) {};
     bool get(int& refVar   , const char* key);
     bool get(float& refVar , const char* key);
     bool get(string& refVar, const char* key);
@@ -51,12 +64,6 @@ class Columns
         m_dblColumns.clear();
     }
 
-  private:
-    mapInt m_intColumns;
-    mapStr m_strColumns;
-    mapBool m_boolColumns;
-    mapFloat m_dblColumns;
-    mapObj m_objColumns;
 };
 
 #endif //COLUMNS_H

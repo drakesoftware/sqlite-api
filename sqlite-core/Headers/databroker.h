@@ -43,6 +43,13 @@ class ColumnsFromSqlValue
                 case PLAT_BOOL:
                     cols.set(name, (bool)valueMap[name].IntVal);
                     break;
+                case PLAT_OBJ:
+                {
+                    Columns cols;
+                    cols.set("_ID", valueMap[name].IntVal);
+                    cols.set(name, cols);
+                    break;
+                }
                 default:
                     break;
             }
@@ -57,7 +64,7 @@ class SqlValueFromColumn
     static vector<SqlValue> create(Columns& cols)
     {
         vector<SqlValue> sqlValues;
-        const schema &schema = cols.getschema();
+        const schema &schema = cols.getSchema();
 
         for(auto pair: schema)
         {
@@ -84,6 +91,14 @@ class SqlValueFromColumn
                     cols.get(val, name);
                     sqlValues.push_back(SqlValue(name, val));
                     break;
+                }
+                case PLAT_OBJ:
+                {
+                    Columns obj;
+                    int _ID;
+                    cols.get(obj, name);
+                    cols.get(_ID, "_ID");
+                    sqlValues.push_back(SqlValue(name, _ID));
                 }
                 case PLAT_INT:
                 default:

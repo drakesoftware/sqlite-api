@@ -68,11 +68,9 @@ class Entity: public Columns
         item.setData();
         return item;
     }
-    
+
   protected:
     Entity(Table t):m_table(t) {};
-    virtual void setData() = 0;
-    virtual void reset(Columns col) = 0;
     /**
      * Helper function that returns firstl value from db
     */

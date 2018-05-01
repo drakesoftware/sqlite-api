@@ -1,5 +1,28 @@
 #include "columns.h"
 
+
+int Columns::getInt(const char* key)
+{
+    return m_intColumns[key];
+}
+float Columns::getFloat(const char* key)
+{
+    return m_dblColumns[key];
+}
+string Columns::getString(const char* key)
+{
+    return m_strColumns[key];
+}
+bool Columns::getBool(const char* key) 
+{
+    return m_boolColumns[key];
+}
+Columns& Columns::getObject(const char* key) 
+{
+    return m_objColumns[key];
+}
+
+
 bool Columns::get(int& refVar, const char* key)
 {
     auto find = m_intColumns.find(key);
@@ -38,6 +61,18 @@ bool Columns::get(bool& refVar, const char* key)
         return false;
     }
     refVar = m_boolColumns[key];
+    return true;
+}
+
+bool Columns::get(Columns& refVar  , const char* key)
+{
+    auto find = m_objColumns.find(key);
+    if(find == m_objColumns.end())
+    {
+        return false;
+    }
+    refVar.reset(m_objColumns[key]);
+    refVar.setData();
     return true;
 }
 
@@ -90,6 +125,18 @@ void Columns::set(const char* key, const bool& value)
     else
     {
         m_boolColumns.insert(std::make_pair(key, value));
+    }
+}
+void Columns::set(const char* key, const Columns& value)
+{
+    auto find = m_objColumns.find(key);
+    if(find != m_objColumns.end())
+    {
+        m_objColumns[key] = value;
+    }
+    else
+    {
+        m_objColumns.insert(std::make_pair(key, value));
     }
 }
 
