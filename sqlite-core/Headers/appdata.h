@@ -24,8 +24,8 @@ class   AppData: public Entity
      * and should not be required to be called
      * from outside at any point of time.
     */
-    schema getschema() const override;  //to define schema
-    void setData() override;            //to get data from object into db
+    schema getSchema() const override;  //to define schema
+    void pushData() override;            //to get data from object into db
     void reset(Columns col) override;   //to get data from db into object
     /*----------------------------------------------*/
 

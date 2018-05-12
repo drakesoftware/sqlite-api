@@ -119,7 +119,7 @@ private:
         return ss;
     }
 
-    static std::string ddlCat(SqlField field)
+    static std::string ddlCat(DBField field)
     {
         string ss;
         ss << field.Name << " " << \
@@ -166,7 +166,7 @@ private:
                 clause
                     << filter.Key \
                     << Filter::getOpStr(filter.FOp) \
-                    << treatSqlValue(filter.Value, filter.Tp);
+                    << treatSqlUnit(filter.Value, filter.Tp);
             }
         }
 
@@ -175,7 +175,7 @@ private:
 
 public:
 
-    static std::string treatSqlValue(string value, SqlTypeEnum type)
+    static std::string treatSqlUnit(string value, SqlTypeEnum type)
     {
         switch(type)
         {
@@ -208,12 +208,12 @@ public:
         return os;
     }
 
-    static std::string CREATE_TABLE(const char* tableName, vector<SqlField> sqlFields)
+    static std::string CREATE_TABLE(const char* tableName, vector<DBField> dbFields)
     {
         string os;
         std::string fieldsList;
 
-        for(auto sqlf: sqlFields)
+        for(auto sqlf: dbFields)
         {
             fieldsList += ((fieldsList.length() > 0) ? "," : "") +
                           ddlCat(sqlf);

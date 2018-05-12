@@ -77,4 +77,3 @@ class RecursiveMutex: public Mutex{
 };
 
 #endif
-

@@ -7,7 +7,6 @@
 #include <stdio.h>
 
 #include "ADSB_Types.h"
-#include "Loggable.h"
 
 ////This class stores the Latitude value in the encoded form
 ///which differs from most other field implementations

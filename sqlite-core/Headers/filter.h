@@ -64,7 +64,7 @@ public:
     {
         apply_filter(key, value, fOp);
     }
-    Filter(const char* key, const float& value, const FilterOperatorEnum& fOp = EQ)
+    Filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
     {
         apply_filter(key, value, fOp);
     }
@@ -83,7 +83,7 @@ public:
         m_filters.push_back(UnitFilter(key, fOp, std::to_string(value), SQL_INT));
         return *this;
     }
-    Filter& apply_filter(const char* key, const float& value, const FilterOperatorEnum& fOp = EQ)
+    Filter& apply_filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
     {
         m_filters.push_back(UnitFilter(key, fOp, std::to_string(value), SQL_DBL));
         return *this;
@@ -129,7 +129,7 @@ inline Filter apply_filter(const char* key, const int& value, const FilterOperat
 {
     return Filter(key, value, fOp);
 }
-inline Filter apply_filter(const char* key, const float& value, const FilterOperatorEnum& fOp = EQ)
+inline Filter apply_filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
 {
     return Filter(key, value, fOp);
 }

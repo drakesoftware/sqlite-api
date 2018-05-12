@@ -2,10 +2,13 @@
 #define ENTITY_H
 #include <vector>
 #include <utility>
+#include <memory>
 #include "columns.h"
 #include "table.h"
 #include "filter.h"
 
+using up_columns = std::unique_ptr<Columns>;
+using up_vecols = std::unique_ptr<vector<up_columns> >;
 
 class Table;
 /**
@@ -16,13 +19,15 @@ class Table;
 */
 class Entity: public Columns
 {
+  private:
+    void SaveComposite(Columns &cols, std::vector<SqlUnit>& parentSqlUnits);
+    void UpdateComposite(Columns &cols, std::vector<SqlUnit> &parentSqlUnits);
   public:
     Entity(const char* dbName, const char* tableName);
 
     void Save();
     void Update();
     void Remove();
-    int id() const ;
 
 
     template<class t>
@@ -30,13 +35,13 @@ class Entity: public Columns
     {
         vector<t> vec;
         auto cols = entity.all();
-        for(auto& col: cols)
+        for(auto& col: *cols)
         {
-            auto item = t(entity);
-            item.reset(col);
+            t item(entity);
+            item.reset(*col);
             Entity& e = item;
-            col.get(e.m__id, "_ID");
-            e.setData();
+            col->get(e.m__id, "_ID");
+            e.pushData();
             vec.push_back(item);
         }
         return vec;
@@ -47,13 +52,13 @@ class Entity: public Columns
     {
         vector<t> vec;
         auto cols = entity.select(filter);
-        for(auto& col: cols)
+        for(auto& col: *cols)
         {
-            auto item = t(entity);
-            item.reset(col);
+            t item(entity);
+            item.reset(*col);
             Entity& e = item;
-            col.get(e.m__id, "_ID");
-            e.setData();
+            col->get(e.m__id, "_ID");
+            e.pushData();
             vec.push_back(item);
         }
         return vec;
@@ -65,43 +70,34 @@ class Entity: public Columns
         vector<t> vec;
         auto col = entity.first();
         auto item = t(entity);
-        item.reset(col);
-        item.setData();
-        return item;
-    }
-    
-    template<class t>
-    static t ByID(t entity, const int& id)
-    {
-        vector<t> vec;
-        auto col = entity.byId(id);
-        auto item = t(entity);
-        item.reset(col);
-        item.setData();
+        item.reset(*col);
+        item.pushData();
         return item;
     }
     
   protected:
     Entity(Table t):m_table(t) {};
-    virtual void setData() = 0;
+    virtual void pushData() = 0;
     virtual void reset(Columns col) = 0;
+
+    void GetComposite(const schema& schm, up_columns& cols) const;
+
     /**
      * Helper function that returns firstl value from db
     */
-    Columns first();
+    up_columns first();
+    /**
+     * Helper function that returns last value from db
+    */
+    up_columns last();
     /**
      * Helper function that returns all values from db
     */
-    std::vector<Columns> all();
+    up_vecols all();
     /**
      * Helper function that returns all values from db qualifying a filter
     */
-    std::vector<Columns> select(const Filter& filter) const;
-    /**
-     * Helper function that returns the values from db for a specific Id
-    */
-    Columns byId(const int& id) const;
-
+    up_vecols select(const Filter& filter) const;
   private:
     int m__id;
     Table m_table;

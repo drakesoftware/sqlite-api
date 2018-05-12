@@ -1,13 +1,13 @@
 
 
-INCLUDEDIRS= sqlite-core/Headers
+INCLUDEDIRS= sqlite-core/Headers examples/src/utilities example/uat example/uat/adsb_uat example/utilities example/common
 
-EGINC = example/uat example/uat/adsb_uat example/utilities
+
+#src/utilities src/hardware  src/uat src/uat/adsb_uat src/common src/Log messages src/routingmsg src/applications \
 
 LIBS=   -l sqlite3 -lreadline -lzmq
 
-VPATH =  sqlite-core/Sources
-EGVPATH = example/uat example/uat/adsb_uat
+VPATH =  sqlite-core/Sources  example/uat example/uat/adsb_uat example/utilities
 
 DEBUG=-g
 
@@ -33,10 +33,16 @@ SOSUBREV=0
 DEFINE_ARGS=$(patsubst %,-D%, $(DEFINES))
 
 
-PROGRAM= telsql
+PROGRAM=telsql
 
 
 C_SOURCES=
+
+UAT_SOURCES=UATData.cpp HorizontalVelocity.cpp VerticalVelocity.cpp Altitude.cpp  \
+			Callsign.cpp BaroSetting.cpp SelectedAltitude.cpp  SelectedHeading.cpp
+
+
+
 
 CPP_SOURCES= 	main.cpp \
 		dbmanager.cpp \
@@ -44,24 +50,10 @@ CPP_SOURCES= 	main.cpp \
 		table.cpp \
 		db.cpp \
 		columns.cpp \
-		appdata.cpp
+		appdata.cpp \
+		composite.cpp \
+		$(UAT_SOURCES)
 
-EG_CPP_SOURCES = 	SelectedAltitude.cpp \
-    			CapabilityCodes.cpp \
-    			AVSize.cpp \
-    			icaocodes.cpp \
-    			BaroSetting.cpp \
-			Callsign.cpp \
-			VerticalVelocity.cpp \
-    			HorizontalVelocity.cpp \
-    			Latitude.cpp \
-    			GroundUplink.cpp \
-    			ADSB_Fields.cpp \
-    			OperationalModes.cpp \
-    			Altitude.cpp \
-    			SelectedHeading.cpp \
-    			Longitude.cpp \
-    			UATData.cpp 
 
 C_OBJECTS=$(patsubst %.c,%.o, $(C_SOURCES))
 
@@ -71,7 +63,7 @@ EG_CPP_OBJECTS = $(patsubst %.cpp,%.o, $(EG_CPP_SOURCES))
 
 CFLAGS=$(DEBUG)  -MMD $(INCPATH)  $(DEFINE_ARGS) -lpthread
 
-CPPFLAGS=$(DEBUG) -MMD $(INCPATH) -Wno-pmf-conversions -std=c++11 $(DEFINE_ARGS) -lpthread
+CPPFLAGS=$(DEBUG) -MMD $(INCPATH) -Wno-pmf-conversions -std=c++11 $(DEFINE_ARGS) -pthread
 
 
 

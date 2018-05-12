@@ -17,7 +17,7 @@ void AppData::populate(const int userId, const string &key, const string &value)
     m_value = value;
 }
 
-void AppData::setData()
+void AppData::pushData()
 {
     set("key", m_key);
     set("value", m_value);
@@ -31,7 +31,7 @@ void AppData::reset(Columns cols)
     cols.get(m_userId, "userId");
 }
 
-schema AppData::getschema() const
+schema AppData::getSchema() const
 {
     return
     {

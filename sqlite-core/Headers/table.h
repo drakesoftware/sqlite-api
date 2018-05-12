@@ -2,6 +2,9 @@
 #define TABEL_H
 #include "db.h"
 #include <utility>
+#include <vector>
+#include <memory>
+
 
 class Filter;
 /**
@@ -13,23 +16,20 @@ class Filter;
 */
 class Table
 {
-  public:
-    Table(const char* tableName, const char* dbName);
-    inline bool istableTouched() const
-    {
-        return m_tableTouched;
-    }
-    void create(const vector<SqlField>& fields);
-    void save(const vector<SqlValue>& values);
-    int update(const int& _id, const vector<SqlValue>& sqlValues);
-    int get(sqlResult& results, int limit = 0) const;
-    int get(sqlResult& results, const Filter& filter, int limit = 0) const;
-    int remove(const int& _id);
   private:
+    Table(const char* tableName, const DB& db);
     bool exists() const;
     const char* m_name;
     DB m_db;
-    bool m_tableTouched;
+  public:
+    Table(const char* tableName, const char* dbName);
+    void create(const vector<DBField>& fields);
+    int save(const vector<SqlUnit>& values);
+    int update(const int& _id, const vector<SqlUnit>& sqlUnits);
+    int get(sqlResult& results, int limit = 0) const;
+    int get(sqlResult& results, const Filter& filter, int limit = 0) const;
+    int remove(const int& _id);
+    std::unique_ptr<Table> CreateLinked(const char* child) const;
 };
 
 

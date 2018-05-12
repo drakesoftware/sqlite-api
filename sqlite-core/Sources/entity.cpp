@@ -1,90 +1,140 @@
 #include "entity.h"
 #include "databroker.h"
 
-Entity::Entity(const char* dbName, const char* tableName)
-    :m_table(tableName, dbName), m__id{0}
+Entity::Entity(const char *dbName, const char *tableName)
+    : m_table(tableName, dbName), m__id{0}
 {
-    
+}
+
+void Entity::SaveComposite(Columns &cols, std::vector<SqlUnit> &parentSqlUnits)
+{
+    for (auto &col : cols.getSchema())
+    {
+        if (col.second == PLAT_CMPST)
+        {
+            const sp_columns& sp_cmpst = cols.getColumns(col.first);
+            if (sp_cmpst != nullptr)
+            {
+                auto up_childTable = m_table.CreateLinked(col.first);
+                auto sqlUnits = SqlUnitFromColumn::create(*sp_cmpst);
+                auto id = up_childTable->save(sqlUnits);
+                sp_cmpst->set("_ID", id);
+                parentSqlUnits.push_back(SqlUnit(col.first, id));
+            }
+        }
+    }
+}
+void Entity::UpdateComposite(Columns &cols, std::vector<SqlUnit> &parentSqlUnits)
+{
+    for (auto &col : cols.getSchema())
+    {
+        if (col.second == PLAT_CMPST)
+        {
+            const sp_columns& sp_cmpst = cols.getColumns(col.first);
+            if (sp_cmpst != nullptr)
+            {
+                auto up_childTable = m_table.CreateLinked(col.first);
+                auto sqlUnits = SqlUnitFromColumn::create(*sp_cmpst);
+                int cmpstId = sp_cmpst->getInt("_ID");
+                auto id = up_childTable->update(cmpstId, sqlUnits);
+                parentSqlUnits.push_back(SqlUnit(col.first, id));
+            }
+        }
+    }
 }
 
 void Entity::Save()
 {
     clear();
-    setData();
+    pushData();
 
-    m_table.save(SqlValueFromColumn::create(*this));
-}
+    auto sqlUnits = SqlUnitFromColumn::create(*this);
+    SaveComposite(*this, sqlUnits);
 
-void Entity::Update()
-{
-    clear();
-    setData();
-
-    m_table.update(m__id, SqlValueFromColumn::create(*this));
+    m_table.save(sqlUnits);
 }
 
 void Entity::Remove()
 {
-    if(m__id > 0)
+    if (m__id > 0)
     {
         m_table.remove(m__id);
     }
 }
 
-int Entity::id() const 
+void Entity::Update()
 {
-    return m__id;
+    clear();
+    pushData();
+
+    auto sqlUnits = SqlUnitFromColumn::create(*this);
+    UpdateComposite(*this, sqlUnits);
+
+    m_table.update(m__id, sqlUnits);
+}
+void Entity::GetComposite(const schema& schm, up_columns& cols) const
+{
+    for (auto &col : schm)
+    {
+        if (col.second == PLAT_CMPST)
+        {
+            auto up_childTable = m_table.CreateLinked(col.first);
+            sqlResult results;
+            int rows = up_childTable->get(results, 1);
+            if (rows > 0)
+            {
+                cols->set(col.first, ColumnsFromSqlUnit::create(results[0]));
+                // cols->remove(col.first, col.second);
+            }
+        }
+    }
 }
 
-Columns Entity::first()
+up_columns Entity::first()
 {
     sqlResult results;
     int rows = m_table.get(results, 1);
-    if(rows > 0)
+    if (rows > 0)
     {
-        return ColumnsFromSqlValue::create(getschema(), results[0]);
+        auto cols = ColumnsFromSqlUnit::create(getSchema(), results[0]);
+        GetComposite(getSchema(), cols);
+        return cols;
     }
     else
     {
-        return Columns();
+        return up_columns(nullptr);
     }
 }
 
-std::vector<Columns> Entity::all()
+up_columns Entity::last()
 {
-    std::vector<Columns>  vec;
+    return first();
+}
+
+up_vecols Entity::all()
+{
+    up_vecols vec(new vector<up_columns>);
     sqlResult results;
     int rows = m_table.get(results);
-    for(auto row: results)
+    for (auto row : results)
     {
-        Columns cols = ColumnsFromSqlValue::create(getschema(), row);
-        vec.push_back(cols);
+        up_columns cols = ColumnsFromSqlUnit::create(getSchema(), row);
+        GetComposite(getSchema(), cols);
+        vec->push_back(std::move(cols));
     }
     return vec;
 }
 
-std::vector<Columns> Entity::select(const Filter& filter) const
+up_vecols Entity::select(const Filter &filter) const
 {
-    std::vector<Columns>  vec;
+    up_vecols vec(new vector<up_columns>);
     sqlResult results;
     int rows = m_table.get(results, filter);
-    for(auto row: results)
+    for (auto row : results)
     {
-        Columns cols = ColumnsFromSqlValue::create(getschema(), row);
-        vec.push_back(cols);
+        up_columns cols = ColumnsFromSqlUnit::create(getSchema(), row);
+        GetComposite(getSchema(), cols);
+        vec->push_back(std::move(cols));
     }
     return vec;
-}
-
-Columns Entity::byId(const int& id) const
-{   
-    auto vecCols = select(apply_filter("_ID", id));
-    if(vecCols.size() > 0)
-    {
-        return vecCols[0];
-    }
-    else
-    {
-        Columns();
-    }
 }
