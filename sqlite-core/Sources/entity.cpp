@@ -15,6 +15,14 @@ void Entity::Save()
     m_table.save(SqlValueFromColumn::create(*this));
 }
 
+void Entity::Update()
+{
+    clear();
+    setData();
+
+    m_table.update(m__id, SqlValueFromColumn::create(*this));
+}
+
 void Entity::Remove()
 {
     if(m__id > 0)
@@ -23,12 +31,9 @@ void Entity::Remove()
     }
 }
 
-void Entity::Update()
+int Entity::id() const 
 {
-    clear();
-    setData();
-
-    m_table.update(m__id, SqlValueFromColumn::create(*this));
+    return m__id;
 }
 
 Columns Entity::first()
@@ -45,11 +50,6 @@ Columns Entity::first()
     }
 }
 
-Columns Entity::last()
-{
-    return first();
-}
-
 std::vector<Columns> Entity::all()
 {
     std::vector<Columns>  vec;
@@ -62,6 +62,7 @@ std::vector<Columns> Entity::all()
     }
     return vec;
 }
+
 std::vector<Columns> Entity::select(const Filter& filter) const
 {
     std::vector<Columns>  vec;
@@ -73,4 +74,17 @@ std::vector<Columns> Entity::select(const Filter& filter) const
         vec.push_back(cols);
     }
     return vec;
+}
+
+Columns Entity::byId(const int& id) const
+{   
+    auto vecCols = select(apply_filter("_ID", id));
+    if(vecCols.size() > 0)
+    {
+        return vecCols[0];
+    }
+    else
+    {
+        Columns();
+    }
 }

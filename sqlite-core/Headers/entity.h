@@ -22,6 +22,7 @@ class Entity: public Columns
     void Save();
     void Update();
     void Remove();
+    int id() const ;
 
 
     template<class t>
@@ -69,6 +70,17 @@ class Entity: public Columns
         return item;
     }
     
+    template<class t>
+    static t ByID(t entity, const int& id)
+    {
+        vector<t> vec;
+        auto col = entity.byId(id);
+        auto item = t(entity);
+        item.reset(col);
+        item.setData();
+        return item;
+    }
+    
   protected:
     Entity(Table t):m_table(t) {};
     virtual void setData() = 0;
@@ -78,10 +90,6 @@ class Entity: public Columns
     */
     Columns first();
     /**
-     * Helper function that returns last value from db
-    */
-    Columns last();
-    /**
      * Helper function that returns all values from db
     */
     std::vector<Columns> all();
@@ -89,6 +97,11 @@ class Entity: public Columns
      * Helper function that returns all values from db qualifying a filter
     */
     std::vector<Columns> select(const Filter& filter) const;
+    /**
+     * Helper function that returns the values from db for a specific Id
+    */
+    Columns byId(const int& id) const;
+
   private:
     int m__id;
     Table m_table;

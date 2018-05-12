@@ -13,7 +13,6 @@ using mapInt = map<const char*, int, cmp_str>;
 using mapStr = map<const char*, string, cmp_str>;
 using mapFloat = map<const char*, float, cmp_str>;
 using mapBool = map<const char*, bool, cmp_str>;
-using mapObj = map<const char*, Columns>;
 
 /**
  * This is a class that holds data for one row or one
