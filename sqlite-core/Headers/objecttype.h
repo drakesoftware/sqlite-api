@@ -3,16 +3,15 @@
 
 #include "columns.h"
 
-
-class Composite:public Columns
+class ObjectType : public Columns
 {
-private:
+  private:
     schema mSchema;
-public:
-    Composite(const vector<PlatUnit>& columns);
-    schema getSchema() const override;
-    int Save(const char* table);
-};
 
+  public:
+    ObjectType(const vector<PlatUnit> &columns);
+    schema getSchema() const override;
+    int Save(const char *table);
+};
 
 #endif //COMPOSITE_H

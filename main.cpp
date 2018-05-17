@@ -2,53 +2,59 @@
 #include "dbmanager.h"
 #include "db.h"
 #include "table.h"
-#include "entity.h"
+#include "persistablebase.h"
 #include "appdata.h"
 #include "UATData.h"
 
-
-
 int main()
 {
-/*example*/
+    /*example*/
 
     UATData u;
-    u.mAddress = {0x896003,AddressQualifier::ICAO};
+
+    u.mAddress = {0x896003, AddressQualifier::ICAO};
     u.mLatitude = (double)38.94;
     u.mAltitude = (int)500;
     u.mOperationalModes = {1};
     u.mAirGroundState = AG_SUBSONIC;
     u.mCapabilityCodes = {2};
-    auto uat = Entity::Select(UATData());
+    std::unique_ptr<vector<std::unique_ptr<UATData>>> up_uat = PersistableBase::Select_UP(UATData());
 
-
+    for (std::unique_ptr<UATData> &uatData : *up_uat)
+    {
+        cout << uatData->mAltitude.getStandard() << endl;
+    }
 
     u.Save();
     u.Update();
+    /*example*/
 
-//     AppData appSettings("app.db", "data1");
-// //Insert
-//     appSettings.populate(1, "distance", "25Ft");
-//     appSettings.Save();
+    //Insert
+    AppData distance(1, "distance", "25Ft");
+    distance.Save();
 
-//     appSettings.populate(1, "port", "A");
-//     appSettings.Save();
-// //Select
-//     auto all = Entity::Select(AppData("app.db", "data1"), 
-//         apply_filter("key", string("distance"))
-//         .AND()
-//         .apply_filter("key", "25Ft"));
-//     for(auto ad: all)
-//     {
-//         cout << ad.key() << ":" << ad.value() << endl;
-//     }
-// //Update
-//     AppData& ad = all.at(0);
-//     ad.setKey("stars");
-//     ad.Update();
-// //Delete
-//     all.at(1).Remove();
-    
-/*example*/
+    AppData port(1, "port", "A");
+    port.Save();
+    //Select
+    // vector<AppData> filtered = PersistableBase::Select(AppData(),
+    //                                               apply_filter("key", string("distance"))
+    //                                               .AND()
+    //                                               .apply_filter("value", string("25Ft")));
+
+    vector<AppData> filtered = PersistableBase::Select(AppData(),
+                                                  "key = 'distance' AND value = '25Ft'");                                                  
+    for (AppData &ad : filtered)
+    {
+        cout << ad.key() << ":" << ad.value() << endl;
+    }
+    //Update
+    AppData &ad = filtered.at(0);
+    ad.setKey("stars");
+    ad.Update();
+    //Delete
+    filtered.at(1).Remove();
+
+    /*example*/
+    cin.ignore();
     return 0;
 }

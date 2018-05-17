@@ -84,7 +84,7 @@ public:
 		{
 			if( wrapped_pointer != ptr.wrapped_pointer )
 			{
-				reset();
+				onGetData();
 
 				wrapped_pointer = ptr.wrapped_pointer;
 
@@ -104,7 +104,7 @@ public:
 		return wrapped_pointer;
 	}
 
-	void reset ()
+	void onGetData ()
 	{
 
 		if(wrapped_pointer)

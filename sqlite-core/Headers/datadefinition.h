@@ -17,7 +17,6 @@ enum PlatformTypeEnum
     PLAT_CMPST
 };
 
-
 enum SqlTypeEnum
 {
     SQL_STR,
@@ -26,7 +25,6 @@ enum SqlTypeEnum
     NUL,
     LOGC
 };
-
 
 enum FilterOperatorEnum
 {
@@ -41,24 +39,19 @@ enum FilterOperatorEnum
 struct PlatUnit
 {
 
-    const char* Name;
+    const char *Name;
     int IntVal = 0;
     string TxtVal = "";
     double DblVal = 0;
     bool BoolVal = false;
     PlatformTypeEnum Tp;
     PlatUnit() = default;
-    
-    PlatUnit(const char* name, const int& intVal):
-        Name(name), IntVal(intVal), Tp(PLAT_INT) {}
-    PlatUnit(const char* name, const string& charVal):
-        Name(name), TxtVal(charVal), Tp(PLAT_STR) {}
-    PlatUnit(const char* name, const double& dblVal):
-        Name(name), DblVal(dblVal), Tp(PLAT_DBL) {}
-    PlatUnit(const char* name, const bool& boolVal):
-        Name(name), BoolVal(boolVal),Tp(PLAT_BOOL) {}
-};
 
+    PlatUnit(const char *name, const int &intVal) : Name(name), IntVal(intVal), Tp(PLAT_INT) {}
+    PlatUnit(const char *name, const string &charVal) : Name(name), TxtVal(charVal), Tp(PLAT_STR) {}
+    PlatUnit(const char *name, const double &dblVal) : Name(name), DblVal(dblVal), Tp(PLAT_DBL) {}
+    PlatUnit(const char *name, const bool &boolVal) : Name(name), BoolVal(boolVal), Tp(PLAT_BOOL) {}
+};
 
 /**
  * This stucture holds value of one column coming
@@ -70,33 +63,29 @@ struct PlatUnit
 */
 struct SqlUnit
 {
-    const char* Name;
+    const char *Name;
     int IntVal = 0;
     string TxtVal = "";
     double FltVal = 0;
     SqlTypeEnum Tp;
     SqlUnit() = default;
-    SqlUnit(const char* name, const int& intVal):
-        Name(name), IntVal(intVal), Tp(SQL_INT) {}
-    SqlUnit(const char* name, const string& charVal):
-        Name(name), TxtVal(charVal), Tp(SQL_STR) {}
-    SqlUnit(const char* name, const double& dblVal):
-        Name(name), FltVal(dblVal), Tp(SQL_DBL) {}
-    SqlUnit(const char* name):
-        Name(name), Tp(NUL) {}
+    SqlUnit(const char *name, const int &intVal) : Name(name), IntVal(intVal), Tp(SQL_INT) {}
+    SqlUnit(const char *name, const string &charVal) : Name(name), TxtVal(charVal), Tp(SQL_STR) {}
+    SqlUnit(const char *name, const double &dblVal) : Name(name), FltVal(dblVal), Tp(SQL_DBL) {}
+    SqlUnit(const char *name) : Name(name), Tp(NUL) {}
 
-    string toString()
+    string toString() const
     {
-        switch(Tp)
+        switch (Tp)
         {
-            case SQL_DBL:
-                return to_string(FltVal);
-            case SQL_INT:
-                return to_string(IntVal);
-            case SQL_STR:
-                return TxtVal;
-            default:
-                return "";
+        case SQL_DBL:
+            return to_string(FltVal);
+        case SQL_INT:
+            return to_string(IntVal);
+        case SQL_STR:
+            return TxtVal;
+        default:
+            return "";
         }
     }
 };
@@ -104,22 +93,21 @@ struct SqlUnit
 struct DBField
 {
     DBField(
-        const char* name,
-        const SqlTypeEnum& type = SqlTypeEnum::SQL_STR,
-        const bool& isKey = false,
-        const int& sz = 0,
-        const bool& notNull = false):
-        Name(name), Type(type), Sz(sz), IsKey(isKey), NotNull(notNull) {}
-    const char* Name;
+        const char *name,
+        const SqlTypeEnum &type = SqlTypeEnum::SQL_STR,
+        const bool &isKey = false,
+        const int &sz = 0,
+        const bool &notNull = false) : Name(name), Type(type), Sz(sz), IsKey(isKey), NotNull(notNull) {}
+    const char *Name;
     SqlTypeEnum Type;
     int Sz;
     bool IsKey;
     bool NotNull;
 
-    static vector<DBField> fromSqlUnits(const vector<SqlUnit>& sqlUnits)
+    static vector<DBField> fromSqlUnits(const vector<SqlUnit> &sqlUnits)
     {
         vector<DBField> fields;
-        for(auto val:sqlUnits)
+        for (const SqlUnit &val : sqlUnits)
         {
             fields.push_back(DBField(val.Name, val.Tp));
         }
@@ -129,13 +117,13 @@ struct DBField
 
 struct cmp_str
 {
-    bool operator()(const char* a, const char* b)
+    bool operator()(const char *a, const char *b)
     {
         return std::strcmp(a, b) < 0;
     }
 };
 
-using mapSqlUnit = map<const char*, SqlUnit, cmp_str>;
-using schema = map<const char*, PlatformTypeEnum, cmp_str>;
+typedef map<const char *, SqlUnit, cmp_str> mapSqlUnit;
+typedef map<const char *, PlatformTypeEnum, cmp_str> schema;
 
 #endif //DATADEFINITION_H

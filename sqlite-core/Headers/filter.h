@@ -4,114 +4,107 @@
 #include <string>
 #include "datadefinition.h"
 
-using std::string;
 using std::map;
-
+using std::string;
 
 struct UnitFilter
 {
-    const char* Key;
+    const char *Key;
     FilterOperatorEnum FOp;
     string Value;
     SqlTypeEnum Tp;
-    UnitFilter(const char* logicalOperator):
-        Key{logicalOperator},
-        FOp{EQ},
-        Value{""},
-        Tp{LOGC}
+    UnitFilter(const char *logicalOperator) : Key{logicalOperator},
+                                              FOp{EQ},
+                                              Value{""},
+                                              Tp{LOGC}
     {
-
     }
 
-    UnitFilter(const char* key, const FilterOperatorEnum& fOp, const string& value, const SqlTypeEnum& tp):
-        Key{key},
-        FOp{fOp},
-        Value{value},
-        Tp{tp}
+    UnitFilter(const char *key, const FilterOperatorEnum &fOp, const string &value, const SqlTypeEnum &tp) : Key{key},
+                                                                                                             FOp{fOp},
+                                                                                                             Value{value},
+                                                                                                             Tp{tp}
     {
-
     }
 };
 
 class Filter
 {
-public:
-    static string getOpStr(const FilterOperatorEnum& fOp)
+  public:
+    static string getOpStr(const FilterOperatorEnum &fOp)
     {
-        switch(fOp)
+        switch (fOp)
         {
-            case LT:
-                return " < ";
-            case LTQ:
-                return " <= ";
-            case GT:
-                return " > ";
-            case GTQ:
-                return " >= ";
-            case NQ:
-                return " < ";
-            case EQ:
-            default:
-                return " == ";
+        case LT:
+            return " < ";
+        case LTQ:
+            return " <= ";
+        case GT:
+            return " > ";
+        case GTQ:
+            return " >= ";
+        case NQ:
+            return " < ";
+        case EQ:
+        default:
+            return " == ";
         }
     }
-    
+
     Filter()
     {
+    }
+    Filter(const char *key, const int &value, const FilterOperatorEnum &fOp = EQ)
+    {
+        apply_filter(key, value, fOp);
+    }
+    Filter(const char *key, const double &value, const FilterOperatorEnum &fOp = EQ)
+    {
+        apply_filter(key, value, fOp);
+    }
+    Filter(const char *key, const string &value, const FilterOperatorEnum &fOp = EQ)
+    {
+        apply_filter(key, value, fOp);
+    }
+    Filter(const char *key, const bool &value, const FilterOperatorEnum &fOp = EQ)
+    {
+        apply_filter(key, value, fOp);
+    }
 
-    }
-    Filter(const char* key, const int& value, const FilterOperatorEnum& fOp = EQ)
-    {
-        apply_filter(key, value, fOp);
-    }
-    Filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
-    {
-        apply_filter(key, value, fOp);
-    }
-    Filter(const char* key, const string& value, const FilterOperatorEnum& fOp = EQ)
-    {
-        apply_filter(key, value, fOp);
-    }
-    Filter(const char* key, const bool& value, const FilterOperatorEnum& fOp = EQ)
-    {
-        apply_filter(key, value, fOp);
-    }
-
-
-    Filter& apply_filter(const char* key, const int& value, const FilterOperatorEnum& fOp = EQ)
+    Filter &apply_filter(const char *key, const int &value, const FilterOperatorEnum &fOp = EQ)
     {
         m_filters.push_back(UnitFilter(key, fOp, std::to_string(value), SQL_INT));
         return *this;
     }
-    Filter& apply_filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
+    Filter &apply_filter(const char *key, const double &value, const FilterOperatorEnum &fOp = EQ)
     {
         m_filters.push_back(UnitFilter(key, fOp, std::to_string(value), SQL_DBL));
         return *this;
     }
-    Filter& apply_filter(const char* key, const string& value, const FilterOperatorEnum& fOp = EQ)
+    Filter &apply_filter(const char *key, const string &value, const FilterOperatorEnum &fOp = EQ)
     {
         m_filters.push_back(UnitFilter(key, fOp, value, SQL_STR));
         return *this;
     }
-    Filter& apply_filter(const char* key, const bool& value, const FilterOperatorEnum& fOp = EQ)
+    Filter &apply_filter(const char *key, const bool &value, const FilterOperatorEnum &fOp = EQ)
     {
         m_filters.push_back(UnitFilter(key, fOp, std::to_string(value), SQL_INT));
         return *this;
     }
 
-    Filter& AND()
+    Filter &AND()
     {
         m_filters.push_back("AND");
         return *this;
     }
 
-    Filter& OR()
+    Filter &OR()
     {
         m_filters.push_back("OR");
         return *this;
     }
 
-    Filter& NOT()
+    Filter &NOT()
     {
         m_filters.push_back("NOT");
         return *this;
@@ -121,23 +114,24 @@ public:
     {
         return m_filters;
     }
-private:
+
+  private:
     vector<UnitFilter> m_filters;
 };
 
-inline Filter apply_filter(const char* key, const int& value, const FilterOperatorEnum& fOp = EQ)
+inline Filter apply_filter(const char *key, const int &value, const FilterOperatorEnum &fOp = EQ)
 {
     return Filter(key, value, fOp);
 }
-inline Filter apply_filter(const char* key, const double& value, const FilterOperatorEnum& fOp = EQ)
+inline Filter apply_filter(const char *key, const double &value, const FilterOperatorEnum &fOp = EQ)
 {
     return Filter(key, value, fOp);
 }
-inline Filter apply_filter(const char* key, const string& value, const FilterOperatorEnum& fOp = EQ)
+inline Filter apply_filter(const char *key, const string &value, const FilterOperatorEnum &fOp = EQ)
 {
     return Filter(key, value, fOp);
 }
-inline Filter apply_filter(const char* key, const bool& value, const FilterOperatorEnum& fOp = EQ)
+inline Filter apply_filter(const char *key, const bool &value, const FilterOperatorEnum &fOp = EQ)
 {
     return Filter(key, value, fOp);
 }

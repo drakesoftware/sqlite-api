@@ -13,12 +13,12 @@ DB::DB(const char *name) : m_name{name}
 void DB::tableTouched(const char *tableName)
 {
     string strTableName = string(tableName);
-    auto find = g_tableJournal.find(m_name);
+    tableJournal::iterator find = g_tableJournal.find(m_name);
     if (find == g_tableJournal.end())
     {
         g_tableJournal.insert(make_pair(m_name, std::vector<string>()));
     }
-    auto tablesList = g_tableJournal[m_name];
+    vector<string> &tablesList = g_tableJournal[m_name];
     if (std::find(tablesList.begin(), tablesList.end(), strTableName) == tablesList.end())
     {
         tablesList.push_back(strTableName);
@@ -28,10 +28,10 @@ void DB::tableTouched(const char *tableName)
 bool DB::istableTouched(const char *tableName) const
 {
     string strTableName = string(tableName);
-    auto find = g_tableJournal.find(m_name);
+    tableJournal::iterator find = g_tableJournal.find(m_name);
     if (find != g_tableJournal.end())
     {
-        auto tablesList = g_tableJournal[m_name];
+        vector<string> tablesList = g_tableJournal[m_name];
         if (std::find(tablesList.begin(), tablesList.end(), strTableName) != tablesList.end())
         {
             return true;
@@ -67,7 +67,7 @@ sqldb DB::create() const
 int DB::getLastRowID(const sqldb &db) const
 {
     sqlite3_stmt *stmt;
-    auto ret = sqlite3_prepare(db.get(), "SELECT last_insert_rowid()", -1, &stmt, NULL);
+    int ret = sqlite3_prepare(db.get(), "SELECT last_insert_rowid()", -1, &stmt, NULL);
 
     sqlstmt up_stmt{stmt};
 
@@ -84,7 +84,7 @@ int DB::getLastRowID(const sqldb &db) const
 int DB::execScalar(const char *sql) const
 {
     char *err_msg = 0;
-    auto db = create();
+    sqldb db = create();
 
     int rc = sqlite3_exec(db.get(), sql, callback, 0, &err_msg);
 
@@ -97,13 +97,13 @@ int DB::execScalar(const char *sql) const
     {
         fprintf(stdout, "query executed successfully\n");
     }
-    auto rowID = getLastRowID(db);
+    int rowID = getLastRowID(db);
     return rowID;
 }
 
 int DB::selectCountScalar(const char *sql) const
 {
-    auto db = create();
+    sqldb db = create();
     sqlite3_stmt *stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL);
     sqlstmt up_stmt{stmt};
@@ -117,7 +117,7 @@ int DB::selectCountScalar(const char *sql) const
 
 int DB::selectScalar(const char *sql, SqlUnit &sqlUnit) const
 {
-    auto db = create();
+    sqldb db = create();
     sqlite3_stmt *stmt;
     sqlite3_prepare(db.get(), sql, -1, &stmt, NULL);
     sqlstmt up_stmt{stmt};
@@ -168,7 +168,7 @@ int DB::selectScalar(const char *sql, SqlUnit &sqlUnit) const
 
 int DB::select(const char *sql, sqlResult &result) const
 {
-    auto db = create();
+    sqldb db = create();
 
     result.clear();
     sqlite3_stmt *stmt;

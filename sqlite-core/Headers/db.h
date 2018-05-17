@@ -24,19 +24,20 @@ struct sqlite3_stmt_deleter
     }
 };
 
-using sqldb = std::unique_ptr<sqlite3, sqlite3_deleter>;
-using sqlstmt = std::unique_ptr<sqlite3_stmt, sqlite3_stmt_deleter>;
-using sqlResult = std::vector<std::vector<SqlUnit>>;
-using tableJournal = std::map<string, std::vector<std::string>>;
+typedef std::unique_ptr<sqlite3, sqlite3_deleter> sqldb;
+typedef std::unique_ptr<sqlite3_stmt, sqlite3_stmt_deleter> sqlstmt;
+typedef std::vector<std::vector<SqlUnit>> sqlResult;
+typedef std::map<string, std::vector<std::string>> tableJournal;
 /**
  * All database related operations are performed in this class only.
 */
 class DB
 {
-  private:
+private:
     static tableJournal g_tableJournal;
-    int getLastRowID(const sqldb& db) const;
-  public:
+    int getLastRowID(const sqldb &db) const;
+
+public:
     DB(const char *name);
 
     void tableTouched(const char *tableName);
@@ -76,7 +77,7 @@ class DB
     */
     int select(const char *sql, sqlResult &result) const;
 
-  private:
+private:
     const char *m_name;
 };
 

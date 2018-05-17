@@ -1,10 +1,10 @@
 #ifndef APPDATA_H
 #define APPDATA_H
 
-#include "entity.h"
+#include "persistablebase.h"
 using namespace std;
 
-class   AppData: public Entity
+class   AppData: public PersistableBase
 {
 
   private:
@@ -13,9 +13,10 @@ class   AppData: public Entity
     string m_value;
 
   public:
-    // AppData();
+    AppData();
+    AppData(const int userId, const string &key, const string &value);
     AppData(const char* dbName, const char* tableName);
-    void populate(const int userId, const string &key, const string &value);
+    // void populate(const int userId, const string &key, const string &value);
 
     /**
      * The three functions that need to be created
@@ -25,8 +26,8 @@ class   AppData: public Entity
      * from outside at any point of time.
     */
     schema getSchema() const override;  //to define schema
-    void pushData() override;            //to get data from object into db
-    void reset(Columns col) override;   //to get data from db into object
+    void onSetData();            //to get data from object into db
+    void onGetData(Columns& col);   //to get data from db into object
     /*----------------------------------------------*/
 
     int userId()const;

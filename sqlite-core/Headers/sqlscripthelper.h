@@ -10,26 +10,30 @@
 
 using namespace std;
 
-inline string& operator<<(string& str1, const string& str2)
+inline string &operator<<(string &&str1, const string &str2)
 {
     return str1.append(str2);
 }
-inline string& operator<<(string& str1, const char* cstr)
+inline string &operator<<(string &str1, const string &str2)
+{
+    return str1.append(str2);
+}
+inline string &operator<<(string &str1, const char *cstr)
 {
     str1 += cstr;
     return str1;
 }
-inline string& operator<<(string& str1, const int& num)
+inline string &operator<<(string &str1, const int &num)
 {
     str1 += to_string(num);
     return str1;
 }
-inline string& operator<<(string& str1, const double& dbl)
+inline string &operator<<(string &str1, const double &dbl)
 {
     str1 += to_string(dbl);
     return str1;
 }
-inline string& operator<<(string& str1, const float& flt)
+inline string &operator<<(string &str1, const float &flt)
 {
     str1 += to_string(flt);
     return str1;
@@ -40,15 +44,14 @@ inline string& operator<<(string& str1, const float& flt)
  * It has functions for INSERT, SELECT and CREATE TABLE.
  * More can be added in due course.
 */
-class SqlFactory
+class SqlScriptHelper
 {
-private:
-
-    static inline void join(const vector<string>& v, char c, string& s)
+  private:
+    static inline void join(const vector<string> &v, char c, string &s)
     {
         s.clear();
         for (vector<string>::const_iterator p = v.begin();
-                p != v.end(); ++p)
+             p != v.end(); ++p)
         {
             s += *p;
             if (p != v.end() - 1)
@@ -57,9 +60,9 @@ private:
             }
         }
     }
-    static const char* SqlTypeEnum_To_Str(SqlTypeEnum type)
+    static const char *SqlTypeEnum_To_Str(SqlTypeEnum type)
     {
-        switch(type)
+        switch (type)
         {
         // case CHAR:
         //     return "CHAR";
@@ -84,7 +87,7 @@ private:
         char keySpec[12];
         char nullSpec[10];
 
-        if(sz > 0)
+        if (sz > 0)
         {
             sprintf(szSpec, " (%i)", sz);
         }
@@ -93,7 +96,7 @@ private:
             sprintf(szSpec, " ");
         }
 
-        if(isKey)
+        if (isKey)
         {
             sprintf(keySpec, " PRIMARY KEY");
         }
@@ -102,7 +105,7 @@ private:
             sprintf(keySpec, " ");
         }
 
-        if(notNull)
+        if (notNull)
         {
             sprintf(nullSpec, " NOT NULL");
         }
@@ -112,9 +115,9 @@ private:
         }
 
         ss
-            << SqlTypeEnum_To_Str(type) \
-            << szSpec \
-            << keySpec \
+            << SqlTypeEnum_To_Str(type)
+            << szSpec
+            << keySpec
             << nullSpec;
         return ss;
     }
@@ -122,50 +125,49 @@ private:
     static std::string ddlCat(DBField field)
     {
         string ss;
-        ss << field.Name << " " << \
-           fieldSpecs(field.Type, field.Sz, field.IsKey, field.NotNull);
+        ss << field.Name << " " << fieldSpecs(field.Type, field.Sz, field.IsKey, field.NotNull);
         return ss;
     }
 
     static void dmlCat(
-        string& partSql,
+        string &partSql,
         vector<string>::iterator itrName,
         vector<string>::iterator itrValue,
-        const vector<string>& names,
-        const vector<string>& values)
+        const vector<string> &names,
+        const vector<string> &values)
     {
         string os;
         os
-            << *itrName \
-            << " = " \
+            << *itrName
+            << " = "
             << *itrValue;
         partSql += os;
 
         ++itrName;
         ++itrValue;
-        if(itrName != names.end())
+        if (itrName != names.end())
         {
             partSql += ", ";
             dmlCat(partSql, itrName, itrValue, names, values);
         }
     }
 
-    static std::string WHERE(const Filter& filters)
+    static std::string WHERE(const Filter &filters)
     {
         string clause;
-        for(auto& filter: filters.get())
+        for (const UnitFilter &filter : filters.get())
         {
-            clause << ((clause.length() <= 0)? "WHERE ": " ");
+            clause << ((clause.length() <= 0) ? "WHERE " : " ");
 
-            if(filter.Tp == LOGC)
+            if (filter.Tp == LOGC)
             {
                 clause << " " << filter.Key << " ";
             }
             else
             {
                 clause
-                    << filter.Key \
-                    << Filter::getOpStr(filter.FOp) \
+                    << filter.Key
+                    << Filter::getOpStr(filter.FOp)
                     << treatSqlUnit(filter.Value, filter.Tp);
             }
         }
@@ -173,11 +175,10 @@ private:
         return clause;
     }
 
-public:
-
-    static std::string treatSqlUnit(string value, SqlTypeEnum type)
+  public:
+    static std::string treatSqlUnit(const string &value, const SqlTypeEnum &type)
     {
-        switch(type)
+        switch (type)
         {
         case SQL_DBL:
         case SQL_INT:
@@ -196,56 +197,55 @@ public:
         }
     }
 
-
-    static string TABLE_EXISTS(const char* tablename)
+    static string TABLE_EXISTS(const char *tablename)
     {
         string os;
         os
-            << "SELECT name FROM sqlite_master WHERE type='table' and name=" \
-            << "'" \
-            << tablename \
+            << "SELECT name FROM sqlite_master WHERE type='table' and name="
+            << "'"
+            << tablename
             << "'";
         return os;
     }
 
-    static std::string CREATE_TABLE(const char* tableName, vector<DBField> dbFields)
+    static std::string CREATE_TABLE(const char *tableName, const vector<DBField> &dbFields)
     {
         string os;
         std::string fieldsList;
 
-        for(auto sqlf: dbFields)
+        for (const DBField &sqlf : dbFields)
         {
             fieldsList += ((fieldsList.length() > 0) ? "," : "") +
                           ddlCat(sqlf);
         }
 
         os
-            << "CREATE TABLE " \
-            << tableName \
-            << "( " \
-            << fieldsList \
+            << "CREATE TABLE "
+            << tableName
+            << "( "
+            << fieldsList
             << ");";
         return os;
     }
 
-    static std::string INSERT_TABLE(const char* tableName, std::string names, std::string values)
+    static std::string INSERT_TABLE(const char *tableName, std::string names, std::string values)
     {
         string ss;
         ss
-            << "INSERT INTO " \
-            << tableName \
-            << " (" \
-            << names \
-            << ") " \
-            << "VALUES(" \
-            << values \
+            << "INSERT INTO "
+            << tableName
+            << " ("
+            << names
+            << ") "
+            << "VALUES("
+            << values
             << ")";
 
         return ss;
     }
 
     static std::string INSERT_TABLE(
-        const char* tableName,
+        const char *tableName,
         vector<string> names,
         vector<string> values)
     {
@@ -256,8 +256,8 @@ public:
     }
 
     static std::string UPDATE_TABLE(
-        const char* tableName,
-        const int& _id,
+        const char *tableName,
+        const int &_id,
         vector<string> names,
         vector<string> values)
     {
@@ -265,55 +265,79 @@ public:
         string partSql;
         dmlCat(partSql, names.begin(), values.begin(), names, values);
         os
-            << "UPDATE " \
-            << tableName << " "\
-            << "SET " \
-            << partSql << " " \
-            << "WHERE _ID = " \
+            << "UPDATE "
+            << tableName << " "
+            << "SET "
+            << partSql << " "
+            << "WHERE _ID = "
             << _id;
         return os;
     }
 
-    static std::string SELECT(const char* tableName, int count)
+    static std::string SELECT(const char *tableName, int count)
     {
         string os;
         std::string limit = "";
-        if(count > 0)
+        if (count > 0)
         {
             limit += " LIMIT " + to_string(count);
         }
         os
-            << "SELECT * FROM " \
-            << tableName \
+            << "SELECT * FROM "
+            << tableName
             << limit;
         return os;
     }
 
-    static std::string SELECT(const char* tableName, const Filter& filter, int count)
+    static std::string SELECT(const char *tableName, const Filter &filter, int count)
     {
         string os;
         std::string limit = "";
-        if(count > 0)
+        if (count > 0)
         {
             limit += " LIMIT " + to_string(count);
         }
         os
-            << "SELECT * FROM " \
-            << tableName \
-            << " " \
-            << WHERE(filter) \
+            << "SELECT * FROM "
+            << tableName
+            << " "
+            << WHERE(filter)
             << limit;
         return os;
     }
 
-    static std::string DELETE(const char* tableName, const int& _id)
+    static std::string SELECT(const char *tableName, const string & sqlFilter, int count)
+    {
+        string os;
+        std::string limit = "";
+        auto where = [](const string& filter)
+        { 
+            if(filter.size() > 0)
+                return "WHERE " << filter;
+            else
+                return string(""); 
+        };
+        if (count > 0)
+        {
+            limit += " LIMIT " + to_string(count);
+        }
+        os
+            << "SELECT * FROM "
+            << tableName
+            << " "
+            << where(sqlFilter)
+            << limit;
+        return os;
+    }
+
+    static std::string DELETE(const char *tableName, const int &_id)
     {
         string os;
 
         os
-            << "DELETE FROM " \
-            << tableName << " "\
-            << "WHERE _ID = " \
+            << "DELETE FROM "
+            << tableName << " "
+            << "WHERE _ID = "
             << _id;
         return os;
     }

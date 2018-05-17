@@ -1,30 +1,37 @@
 #include "appdata.h"
 
-// AppData::AppData():
-//     Entity{"app.db", "data1"}
-// {
-
-// }
-AppData::AppData(const char* dbName, const char* tableName):
-    Entity(dbName, tableName)
+AppData::AppData():
+    PersistableBase{"tel.db", "data1"}
 {
-
 }
-void AppData::populate(const int userId, const string &key, const string &value)
+
+AppData::AppData(const int userId, const string &key, const string &value):
+    PersistableBase{"tel.db", "data1"}
 {
     m_userId = userId;
     m_key = key;
     m_value = value;
 }
+AppData::AppData(const char* dbName, const char* tableName):
+    PersistableBase(dbName, tableName)
+{
 
-void AppData::pushData()
+}
+// void AppData::populate(const int userId, const string &key, const string &value)
+// {
+//     m_userId = userId;
+//     m_key = key;
+//     m_value = value;
+// }
+
+void AppData::onSetData()
 {
     set("key", m_key);
     set("value", m_value);
     set("userId", m_userId);
 }
 
-void AppData::reset(Columns cols)
+void AppData::onGetData(Columns& cols)
 {
     cols.get(m_key, "key");
     cols.get(m_value, "value");

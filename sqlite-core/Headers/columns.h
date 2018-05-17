@@ -8,10 +8,10 @@
 #include <memory>
 #include <algorithm>
 
-template<class getset, class dataType>
-class property: public getset
+template <class getset, class dataType>
+class property : public getset
 {
-public:
+  public:
     dataType getter()
     {
         return this->get();
@@ -22,16 +22,15 @@ public:
     }
 };
 
-
 class Columns;
 using std::string;
-using sp_columns = std::shared_ptr<Columns>;
+typedef std::shared_ptr<Columns> sp_columns;
 
-using mapInt = map<const char*, int, cmp_str>;
-using mapStr = map<const char*, string, cmp_str>;
-using mapFloat = map<const char*, double, cmp_str>;
-using mapBool = map<const char*, bool, cmp_str>;
-using mapCols = map<const char*, sp_columns, cmp_str>;
+typedef map<const char *, int, cmp_str> mapInt;
+typedef map<const char *, string, cmp_str> mapStr;
+typedef map<const char *, double, cmp_str> mapFloat;
+typedef map<const char *, bool, cmp_str> mapBool;
+typedef map<const char *, sp_columns, cmp_str> mapCols;
 
 /**
  * This is a class that holds data for one row or one
@@ -49,41 +48,46 @@ class Columns
     virtual schema getSchema() const
     {
         schema scma;
-        auto add = [&scma](const char* name, PlatformTypeEnum tp){scma.insert(make_pair(name, tp));};
-        
-        for(auto& p: m_boolColumns) add(p.first, PLAT_BOOL);
-        for(auto& p: m_colsColumns) add(p.first, PLAT_CMPST);
-        for(auto& p: m_dblColumns) add(p.first, PLAT_DBL);
-        for(auto& p: m_intColumns) add(p.first, PLAT_INT);
-        for(auto& p: m_strColumns) add(p.first, PLAT_STR);
+        auto add = [&scma](const char *name, PlatformTypeEnum tp) { scma.insert(make_pair(name, tp)); };
+
+        for (const pair<const char *, bool> &p : m_boolColumns)
+            add(p.first, PLAT_BOOL);
+        for (const pair<const char *, std::shared_ptr<Columns>> &p : m_colsColumns)
+            add(p.first, PLAT_CMPST);
+        for (const pair<const char *, double> &p : m_dblColumns)
+            add(p.first, PLAT_DBL);
+        for (const pair<const char *, int> &p : m_intColumns)
+            add(p.first, PLAT_INT);
+        for (const pair<const char *, string> &p : m_strColumns)
+            add(p.first, PLAT_STR);
         return scma;
     }
-    
-    int getInt(const char* key, const int& def = 0);
-    char* getChar(const char* key, const char* def = 0);
-    unsigned int getUInt(const char* key, const unsigned int& def = 0);
-    double getDouble(const char* key, const double& def = 0.0);
-    float getFloat(const char* key, const float& def = 0.0);
-    string getString(const char* key, const string& def = "");
-    int getBool(const char* key, const int& def = -1);
-    sp_columns getColumns(const char* key);
 
-    bool get(int& refVar   , const char* key);
-    bool get(unsigned int& refVar, const char* key);
-    bool get(float& refVar , const char* key);
-    bool get(double& refVar , const char* key);
-    bool get(string& refVar, const char* key);
-    bool get(const char* refVar, const char* key);
-    bool get(bool& refVar  , const char* key);
+    int getInt(const char *key, const int &def = 0);
+    char *getChar(const char *key, const char *def = 0);
+    unsigned int getUInt(const char *key, const unsigned int &def = 0);
+    double getDouble(const char *key, const double &def = 0.0);
+    float getFloat(const char *key, const float &def = 0.0);
+    string getString(const char *key, const string &def = "");
+    int getBool(const char *key, const int &def = -1);
+    sp_columns getColumns(const char *key);
 
-    void set(const char* key, const int& value);
-    void set(const char* key, const unsigned int& value);
-    void set(const char* key, const float& value);
-    void set(const char* key, const double& value);
-    void set(const char* key, const string& value);
-    void set(const char* key, const char* value);
-    void set(const char* key, const bool& value);
-    void set(const char* key, const sp_columns& value);
+    bool get(int &refVar, const char *key);
+    bool get(unsigned int &refVar, const char *key);
+    bool get(float &refVar, const char *key);
+    bool get(double &refVar, const char *key);
+    bool get(string &refVar, const char *key);
+    bool get(const char *refVar, const char *key);
+    bool get(bool &refVar, const char *key);
+
+    void set(const char *key, const int &value);
+    void set(const char *key, const unsigned int &value);
+    void set(const char *key, const float &value);
+    void set(const char *key, const double &value);
+    void set(const char *key, const string &value);
+    void set(const char *key, const char *value);
+    void set(const char *key, const bool &value);
+    void set(const char *key, const sp_columns &value);
 
     void clear()
     {
@@ -94,7 +98,8 @@ class Columns
         m_colsColumns.clear();
     }
 
-    void remove(const char* name, const PlatformTypeEnum& tp);
+    void remove(const char *name, const PlatformTypeEnum &tp);
+
   private:
     mapInt m_intColumns;
     mapStr m_strColumns;

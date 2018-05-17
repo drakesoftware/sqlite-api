@@ -9,8 +9,8 @@
 #include <math.h>
 #include "Mutex.h"
 #include "ADSB_Fields.h"
-#include "entity.h"
-#include "composite.h"
+#include "persistablebase.h"
+#include "objecttype.h"
 
 enum UAT_DATA_SOURCE
 {
@@ -20,7 +20,7 @@ enum UAT_DATA_SOURCE
     SOURCE_END
 };
 
-struct UATData: public Entity
+struct UATData: public PersistableBase
 {
     Mutex mMutex;                                   ///0
     PayloadType mPayloadType;                       ///1 2.2.4.5.1
@@ -106,59 +106,20 @@ struct UATData: public Entity
 
 
 
-    public:
-
+public:
     UATData():
-    Entity("tel.db", "uat")
+    PersistableBase("tel.db", "uat")
     {
 
     }
     UATData(const UATData& uatData):
-    Entity(uatData)
+    PersistableBase(uatData)
     {
 
     }
-
-    void pushData()
-    {
-        set("Address", mAddress.get());
-        set("Latitude", mLatitude.getStandard());
-        set("Altitude", mAltitude.getStandard());
-        set("OperationalModes", mOperationalModes.get());
-        set("AirGroundState", mAirGroundState.get());
-        set("HorizontalVelocity", sp_columns(new Composite(
-            {
-                PlatUnit("Angle", 1.0/*mHorizontalVelocity.getVelocity().pv.angle*/),
-                PlatUnit("Velocity", 20/*mHorizontalVelocity.getVelocity().pv.groundspeed*/)
-            })));//Composite type 
-        set("CapabilityCodes", mCapabilityCodes.get());
-    }
-
-    void reset(Columns cols)
-    {
-        mAddress.set(cols.getUInt("Address"));
-        mLatitude.setStandard(cols.getDouble("Latitude"));
-        mAltitude.setStandard(cols.getInt("Altitude"));
-        mOperationalModes.set(cols.getInt("OperationalModes"));
-        mAirGroundState.set(static_cast<EAirGroundState>(cols.getInt("AirGroundState")));
-        double angle = cols.getColumns("HorizontalVelocity")->getDouble("Angle"); 
-        double velocity = cols.getColumns("HorizontalVelocity")->getInt("Velocity"); 
-        mCapabilityCodes.set(cols.getUInt("CapabilityCodes"));
-    }
-
-    schema getSchema() const
-    {
-        return
-        {
-            {"Address", PLAT_INT},              //unsigned int need to be handled
-            {"Latitude", PLAT_DBL},             //Need to convert float to double
-            {"Altitude", PLAT_INT},             //int
-            {"OperationalModes", PLAT_INT},      //uint_8
-            {"AirGroundState", PLAT_INT},       //TODO: Create separate type for Enums
-            {"HorizontalVelocity", PLAT_CMPST},   //complex types need to be handled//Composite type - do later
-            {"CapabilityCodes", PLAT_BOOL}       //unsigned char
-        };
-    }
+    void onSetData() override;
+    void onGetData(Columns& col) override;
+    schema getSchema() const;
 
     void loadData(UAT_DATA_SOURCE source)
     {

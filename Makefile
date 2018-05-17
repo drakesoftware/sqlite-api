@@ -1,13 +1,13 @@
 
 
-INCLUDEDIRS= sqlite-core/Headers examples/src/utilities example/uat example/uat/adsb_uat example/utilities example/common
+INCLUDEDIRS= sqlite-core/Headers example example/src/utilities example/uat example/uat/adsb_uat example/utilities example/common
 
 
 #src/utilities src/hardware  src/uat src/uat/adsb_uat src/common src/Log messages src/routingmsg src/applications \
 
 LIBS=   -l sqlite3 -lreadline -lzmq
 
-VPATH =  sqlite-core/Sources  example/uat example/uat/adsb_uat example/utilities
+VPATH =  sqlite-core/Sources  example example/uat example/uat/adsb_uat example/utilities
 
 DEBUG=-g
 
@@ -39,19 +39,19 @@ PROGRAM=telsql
 C_SOURCES=
 
 UAT_SOURCES=UATData.cpp HorizontalVelocity.cpp VerticalVelocity.cpp Altitude.cpp  \
-			Callsign.cpp BaroSetting.cpp SelectedAltitude.cpp  SelectedHeading.cpp
+			Callsign.cpp BaroSetting.cpp SelectedAltitude.cpp  SelectedHeading.cpp \
+			UATData_persistable.cpp appdata.cpp
 
 
 
 
 CPP_SOURCES= 	main.cpp \
 		dbmanager.cpp \
-		entity.cpp \
+		persistablebase.cpp \
 		table.cpp \
 		db.cpp \
 		columns.cpp \
-		appdata.cpp \
-		composite.cpp \
+		objecttype.cpp \
 		$(UAT_SOURCES)
 
 

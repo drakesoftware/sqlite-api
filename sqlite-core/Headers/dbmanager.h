@@ -1,15 +1,14 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
 
-
 class DefaultDataCreationPolicy
 {
-  public:
-    template<class AnyDataType>
-    AnyDataType Create(const char* dbName, const char* tableName)
-    {
-        return AnyDataType();
-    }
+public:
+  template <class AnyDataType>
+  AnyDataType Create(const char *dbName, const char *tableName)
+  {
+    return AnyDataType();
+  }
 };
 /**
  * This is a data creation policy with a templated
@@ -22,12 +21,12 @@ class DefaultDataCreationPolicy
 */
 class UATDomainCreationPolicy
 {
-  public:
-    template<class UATDataType>
-    UATDataType Create(const char* dbName, const char* tableName)
-    {
-        return UATDataType(dbName, tableName);
-    }
+public:
+  template <class UATDataType>
+  UATDataType Create(const char *dbName, const char *tableName)
+  {
+    return UATDataType(dbName, tableName);
+  }
 };
 
 /**
@@ -37,21 +36,21 @@ class UATDomainCreationPolicy
  * help configure object creation, serialization and
  * deserialization.
 */
-template<class EntityCreationPolicy = DefaultDataCreationPolicy>
-class DbManager: public EntityCreationPolicy
+template <class PersistableCreationPolicy = DefaultDataCreationPolicy>
+class DbManager : public PersistableCreationPolicy
 {
-  protected:
-    DbManager() = default;
-  public:
-    static DbManager instance()
-    {
-        static DbManager s_instance;
-        return s_instance;
-    }
-  private:
+protected:
+  DbManager() = default;
+
+public:
+  static DbManager instance()
+  {
+    static DbManager s_instance;
+    return s_instance;
+  }
+
+private:
 };
-
-
 
 typedef DbManager<UATDomainCreationPolicy> UATDBManager;
 

@@ -1,5 +1,5 @@
 #include "table.h"
-#include "sqlfactory.h"
+#include "sqlscripthelper.h"
 #include "filter.h"
 #include <cmath>
 
@@ -13,7 +13,7 @@ bool Table::exists() const
 {
     if (!m_db.istableTouched(m_name))
     {
-        string sql = SqlFactory::TABLE_EXISTS(m_name);
+        string sql = SqlScriptHelper::TABLE_EXISTS(m_name);
         int count = m_db.selectCountScalar(sql.data());
         return count >= 0;
     }
@@ -28,7 +28,7 @@ void Table::create(const vector<DBField> &fields)
     {
         vector<DBField> newTable(fields);
         newTable.push_back(DBField("_ID", SQL_INT, true));
-        auto sqlCreateTable = SqlFactory::CREATE_TABLE(m_name, newTable);
+        string &&sqlCreateTable = SqlScriptHelper::CREATE_TABLE(m_name, newTable);
         if (m_db.execScalar(sqlCreateTable.data()))
         {
             m_db.tableTouched(m_name);
@@ -47,12 +47,12 @@ int Table::save(const vector<SqlUnit> &sqlUnits)
         create(DBField::fromSqlUnits(sqlUnits));
     }
     vector<string> names, values;
-    for (auto val : sqlUnits)
+    for (const SqlUnit &val : sqlUnits)
     {
         names.push_back(val.Name);
-        values.push_back(SqlFactory::treatSqlUnit(val.toString(), val.Tp));
+        values.push_back(SqlScriptHelper::treatSqlUnit(val.toString(), val.Tp));
     }
-    auto sqlInsertTable = SqlFactory::INSERT_TABLE(m_name, names, values);
+    string &&sqlInsertTable = SqlScriptHelper::INSERT_TABLE(m_name, names, values);
     return m_db.execScalar(sqlInsertTable.data());
 }
 
@@ -61,12 +61,12 @@ int Table::update(const int &_id, const vector<SqlUnit> &sqlUnits)
     if (exists())
     {
         vector<string> names, values;
-        for (auto val : sqlUnits)
+        for (const SqlUnit &val : sqlUnits)
         {
             names.push_back(val.Name);
-            values.push_back(SqlFactory::treatSqlUnit(val.toString(), val.Tp));
+            values.push_back(SqlScriptHelper::treatSqlUnit(val.toString(), val.Tp));
         }
-        auto sqlUpdateTable = SqlFactory::UPDATE_TABLE(m_name, _id, names, values);
+        string &&sqlUpdateTable = SqlScriptHelper::UPDATE_TABLE(m_name, _id, names, values);
         m_db.execScalar(sqlUpdateTable.data());
     }
     else
@@ -77,13 +77,19 @@ int Table::update(const int &_id, const vector<SqlUnit> &sqlUnits)
 
 int Table::get(sqlResult &results, int limit) const
 {
-    string selectSql = SqlFactory::SELECT(m_name, limit);
+    string selectSql = SqlScriptHelper::SELECT(m_name, limit);
     return m_db.select(selectSql.data(), results);
 }
 
 int Table::get(sqlResult &results, const Filter &filter, int limit) const
 {
-    string selectSql = SqlFactory::SELECT(m_name, filter, limit);
+    string selectSql = SqlScriptHelper::SELECT(m_name, filter, limit);
+    return m_db.select(selectSql.data(), results);
+}
+
+int Table::get(sqlResult &results, const string &sqlFilter, int limit) const
+{
+    string selectSql = SqlScriptHelper::SELECT(m_name, sqlFilter, limit);
     return m_db.select(selectSql.data(), results);
 }
 
@@ -91,7 +97,7 @@ int Table::remove(const int &_id)
 {
     if (exists())
     {
-        string removeSql = SqlFactory::DELETE(m_name, _id);
+        string removeSql = SqlScriptHelper::DELETE(m_name, _id);
         return m_db.execScalar(removeSql.data());
     }
     return -1;
